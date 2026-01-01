@@ -12,12 +12,30 @@ export const mockUserProfile = {
 };
 
 export const mockCarouselSlides = [
-  { title: "Today’s Value Focus", subtitle: "Placeholder slide — API-backed later." },
-  { title: "Your Weekly Momentum", subtitle: "Placeholder slide — APAT-aware later." },
-  { title: "Next Training Recommended", subtitle: "Placeholder slide — orchestration later." },
-  { title: "My Office Snapshot", subtitle: "Placeholder slide — personalized summaries later." },
-  { title: "PAG & Community", subtitle: "Placeholder slide — PAG insights later." },
-  { title: "Impact Transfer", subtitle: "Placeholder slide — impact + rewards views later." },
+  {
+    title: "Today’s Value Focus",
+    subtitle: "Placeholder slide — API-backed later.",
+  },
+  {
+    title: "Your Weekly Momentum",
+    subtitle: "Placeholder slide — APAT-aware later.",
+  },
+  {
+    title: "Next Training Recommended",
+    subtitle: "Placeholder slide — orchestration later.",
+  },
+  {
+    title: "My Office Snapshot",
+    subtitle: "Placeholder slide — personalized summaries later.",
+  },
+  {
+    title: "PAG & Community",
+    subtitle: "Placeholder slide — PAG insights later.",
+  },
+  {
+    title: "Impact Transfer",
+    subtitle: "Placeholder slide — impact + rewards views later.",
+  },
 ];
 
 export const mockQuickTiles = [
@@ -73,26 +91,75 @@ export const mockChildren = [
 export const mockSolutions = [
   { title: "VDP", desc: "Values-Driven Parenting (placeholder).", cta: "Open" },
   { title: "VDL", desc: "Values-Driven Life (placeholder).", cta: "Open" },
-  { title: "VDO", desc: "Values-Driven Organization (placeholder).", cta: "Explore" },
-  { title: "VIE", desc: "Values-Driven Education (placeholder).", cta: "Explore" },
-  { title: "Pathfinder", desc: "Discovery + direction (placeholder).", cta: "Explore" },
-  { title: "Character Booth", desc: "Character insights (placeholder).", cta: "Explore" },
-  { title: "VDC Coin", desc: "Utility token (placeholder).", cta: "Learn more" },
-  { title: "VDC Trading Bot", desc: "Trading tool (placeholder).", cta: "Learn more" },
+  {
+    title: "VDO",
+    desc: "Values-Driven Organization (placeholder).",
+    cta: "Explore",
+  },
+  {
+    title: "VIE",
+    desc: "Values-Driven Education (placeholder).",
+    cta: "Explore",
+  },
+  {
+    title: "Pathfinder",
+    desc: "Discovery + direction (placeholder).",
+    cta: "Explore",
+  },
+  {
+    title: "Character Booth",
+    desc: "Character insights (placeholder).",
+    cta: "Explore",
+  },
+  {
+    title: "VDC Coin",
+    desc: "Utility token (placeholder).",
+    cta: "Learn more",
+  },
+  {
+    title: "VDC Trading Bot",
+    desc: "Trading tool (placeholder).",
+    cta: "Learn more",
+  },
   { title: "Courses", desc: "Training catalog (placeholder).", cta: "Browse" },
 ];
 
 export const mockCoursesByTab = {
   VDP: [
-    { name: "VDP Foundations", progressPct: 35, status: "IN PROGRESS", cta: "Continue" },
-    { name: "VDP Daily Rhythm", progressPct: 0, status: "NOT STARTED", cta: "Start" },
+    {
+      name: "VDP Foundations",
+      progressPct: 35,
+      status: "IN PROGRESS",
+      cta: "Continue",
+    },
+    {
+      name: "VDP Daily Rhythm",
+      progressPct: 0,
+      status: "NOT STARTED",
+      cta: "Start",
+    },
   ],
   "VDP-CC": [
-    { name: "VDP Certification Track", progressPct: 10, status: "IN PROGRESS", cta: "Continue" },
+    {
+      name: "VDP Certification Track",
+      progressPct: 10,
+      status: "IN PROGRESS",
+      cta: "Continue",
+    },
   ],
   VDL: [
-    { name: "VDL Discipline Basics", progressPct: 60, status: "IN PROGRESS", cta: "Continue" },
-    { name: "VDL Review Pack", progressPct: 100, status: "COMPLETED", cta: "Review" },
+    {
+      name: "VDL Discipline Basics",
+      progressPct: 60,
+      status: "IN PROGRESS",
+      cta: "Continue",
+    },
+    {
+      name: "VDL Review Pack",
+      progressPct: 100,
+      status: "COMPLETED",
+      cta: "Review",
+    },
   ],
 };
 
@@ -100,13 +167,31 @@ export const mockProducts = [
   { id: "p1", title: "Toolkit (Placeholder)", price: "—", tag: "Featured" },
   { id: "p2", title: "Workbook (Placeholder)", price: "—", tag: "Popular" },
   { id: "p3", title: "Family Pack (Placeholder)", price: "—", tag: "New" },
-  { id: "p4", title: "Coaching Add-on (Placeholder)", price: "—", tag: "Add-on" },
+  {
+    id: "p4",
+    title: "Coaching Add-on (Placeholder)",
+    price: "—",
+    tag: "Add-on",
+  },
 ];
 
 export const mockPromotions = [
-  { id: "promo-1", title: "Referral Bonus", desc: "Placeholder campaign card.", status: "ACTIVE" },
-  { id: "promo-2", title: "Seasonal Promotion", desc: "Placeholder campaign card.", status: "ACTIVE" },
-  { id: "promo-3", title: "Recognition Event", desc: "Placeholder campaign card.", status: "UPCOMING" },
+  {
+    id: "promo-1",
+    title: "Referral Bonus",
+    desc: "Placeholder campaign card.",
+    status: "ACTIVE",
+  },
+  {
+    id: "promo-2",
+    title: "Seasonal Promotion",
+    desc: "Placeholder campaign card.",
+    status: "ACTIVE",
+  },
+  {
+    id: "promo-3",
+    title: "Recognition Event",
+    desc: "Placeholder campaign card.",
+    status: "UPCOMING",
+  },
 ];
-
-

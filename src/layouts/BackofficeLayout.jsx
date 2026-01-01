@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { clearAuth, getAuth } from "../services/authStorage";
 import { useBackoffice } from "../context/BackofficeContext";
@@ -29,6 +29,12 @@ export default function BackofficeLayout({ children }) {
   const [language, setLanguage] = useState(boUser?.language || "EN");
   const [country, setCountry] = useState(boUser?.country || "Kenya");
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Keep UI selectors aligned with context when the mock API loads user data.
+  useEffect(() => {
+    if (boUser?.language) setLanguage(boUser.language);
+    if (boUser?.country) setCountry(boUser.country);
+  }, [boUser]);
 
   const onLogout = () => {
     clearAuth();
