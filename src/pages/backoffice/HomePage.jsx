@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
@@ -11,6 +11,16 @@ function HeroCarousel() {
   const slides = mockCarouselSlides;
 
   const slide = slides[idx] || slides[0];
+
+  useEffect(() => {
+    if (!Array.isArray(slides) || slides.length <= 1) return undefined;
+
+    const id = setInterval(() => {
+      setIdx((v) => (v + 1) % slides.length);
+    }, 6000);
+
+    return () => clearInterval(id);
+  }, [slides.length]);
 
   return (
     <Card
