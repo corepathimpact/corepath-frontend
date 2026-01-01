@@ -234,12 +234,64 @@ function PerformanceDashboard() {
 }
 
 export default function HomePage() {
+  const { training, performance } = useBackoffice() || {};
+  const apatToday = performance?.apatToday ?? 0;
+
   return (
     <div>
       <SectionHeader
         title="Home"
         subtitle="VDP/VDL Parent Backoffice (frontend generation)."
       />
+
+      {/* Priority CTA: Continue with values training */}
+      <div className="mt-6">
+        <Card
+          className="bg-gradient-to-br from-teal-950 via-teal-800 to-teal-700 text-white border-teal-900"
+          title="Continue with Today’s Value Training"
+          subtitle="Complete your 10 logic areas"
+          actions={
+            <Link
+              to="/my-office"
+              className="h-10 inline-flex items-center px-5 rounded-full bg-white text-teal-950 font-extrabold hover:bg-teal-50"
+            >
+              Continue
+            </Link>
+          }
+        >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <StatCard
+              label="Current Value"
+              value={training?.currentValue || "—"}
+              className="bg-white/10 border-white/20 text-white"
+            />
+            <StatCard
+              label="Practices Today"
+              value={`${training?.practicesToday ?? 0}/${training?.totalPracticesToday ?? 0}`}
+              className="bg-white/10 border-white/20 text-white"
+            />
+            <StatCard
+              label="Logic Areas"
+              value={`${training?.logicAreasCovered ?? 0}/${training?.totalLogicAreas ?? 0}`}
+              className="bg-white/10 border-white/20 text-white"
+            />
+            <StatCard
+              label="Values Covered"
+              value={`${training?.valuesCovered ?? 0}/${training?.totalValues ?? 0}`}
+              className="bg-white/10 border-white/20 text-white"
+            />
+          </div>
+          <div className="mt-3 text-xs text-teal-100">
+            Placeholder — driven by orchestrator + RAE content in Phase 6+.
+          </div>
+        </Card>
+
+        {apatToday < 60 ? (
+          <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <span className="font-extrabold">⚠️ Low APAT today</span> — complete today’s value practices.
+          </div>
+        ) : null}
+      </div>
 
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-[70vh]">
         <div className="lg:col-span-9">
