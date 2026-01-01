@@ -8,19 +8,42 @@ import { useBackoffice } from "../../context/BackofficeContext";
 
 function HeroCarousel() {
   const [idx, setIdx] = useState(0);
+  const [nextIdx, setNextIdx] = useState(null);
+  const [isAnimating, setIsAnimating] = useState(false);
   const slides = mockCarouselSlides;
 
   const slide = slides[idx] || slides[0];
+  const nextSlide =
+    nextIdx !== null && nextIdx !== undefined ? slides[nextIdx] || slides[0] : null;
+
+  const advanceTo = (targetIdx) => {
+    if (!Array.isArray(slides) || slides.length === 0) return;
+    if (isAnimating) return;
+    const safeTarget = ((targetIdx % slides.length) + slides.length) % slides.length;
+    if (safeTarget === idx) return;
+
+    setNextIdx(safeTarget);
+    // Render the next image off-screen first, then trigger the transition.
+    setTimeout(() => setIsAnimating(true), 20);
+
+    // Match Tailwind transition duration below (500ms)
+    setTimeout(() => {
+      setIdx(safeTarget);
+      setNextIdx(null);
+      setIsAnimating(false);
+    }, 520);
+  };
 
   useEffect(() => {
     if (!Array.isArray(slides) || slides.length <= 1) return undefined;
 
     const id = setInterval(() => {
-      setIdx((v) => (v + 1) % slides.length);
+      if (isAnimating) return;
+      advanceTo((idx + 1) % slides.length);
     }, 6000);
 
     return () => clearInterval(id);
-  }, [slides.length]);
+  }, [slides.length, idx, isAnimating]);
 
   return (
     <Card
@@ -30,13 +53,13 @@ function HeroCarousel() {
       actions={
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setIdx((v) => (v - 1 + slides.length) % slides.length)}
+            onClick={() => advanceTo((idx - 1 + slides.length) % slides.length)}
             className="h-9 px-3 rounded-xl border border-slate-200 text-sm font-bold hover:bg-slate-50"
           >
             Prev
           </button>
           <button
-            onClick={() => setIdx((v) => (v + 1) % slides.length)}
+            onClick={() => advanceTo((idx + 1) % slides.length)}
             className="h-9 px-3 rounded-xl border border-slate-200 text-sm font-bold hover:bg-slate-50"
           >
             Next
@@ -75,19 +98,45 @@ function HeroCarousel() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-slate-200">
+          <div className="lg:col-span-5 bg-slate-200 relative overflow-hidden min-h-[220px]">
+            {/* Current image */}
             {slide.imageSrc ? (
               <img
                 src={slide.imageSrc}
                 alt={slide.imageAlt || slide.title || "Slide image"}
-                className="h-full w-full object-cover"
+                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-in-out ${
+                  isAnimating ? "-translate-x-full" : "translate-x-0"
+                }`}
                 loading="lazy"
               />
             ) : (
-              <div className="h-full min-h-[220px] flex items-center justify-center text-sm text-slate-600">
+              <div className="absolute inset-0 flex items-center justify-center text-sm text-slate-600">
                 Image placeholder
               </div>
             )}
+
+            {/* Next image (slides in from right, ending at 0) */}
+            {nextIdx !== null && nextSlide && nextSlide.imageSrc ? (
+              <img
+                src={nextSlide.imageSrc}
+                alt={nextSlide.imageAlt || nextSlide.title || "Next slide image"}
+                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-in-out ${
+                  isAnimating ? "translate-x-0" : "translate-x-full"
+                }`}
+                loading="lazy"
+              />
+            ) : null}
+
+            {/* If animating but next image is missing */}
+            {nextIdx !== null && nextSlide && !nextSlide.imageSrc ? (
+              <div
+                className={`absolute inset-0 flex items-center justify-center text-sm text-slate-600 transition-transform duration-500 ease-in-out ${
+                  isAnimating ? "translate-x-0" : "translate-x-full"
+                }`}
+              >
+                Image placeholder
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
