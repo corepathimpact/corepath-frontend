@@ -2,8 +2,21 @@ import React, { useMemo, useState } from "react";
 import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
 import { mockProducts } from "./mock/backofficeMock";
+import { useEligibility } from "../../context/EligibilityContext";
+
+function EligibilityReasons({ reasons }) {
+  if (!Array.isArray(reasons) || reasons.length === 0) return null;
+  return (
+    <ul className="mt-3 list-disc pl-5 text-xs text-slate-700">
+      {reasons.map((r, idx) => (
+        <li key={`${idx}-${r}`}>{r}</li>
+      ))}
+    </ul>
+  );
+}
 
 export default function ShopPage() {
+  const eligibility = useEligibility();
   const [filter, setFilter] = useState("ALL");
   const filters = useMemo(() => ["ALL", "Featured", "Popular", "New", "Add-on"], []);
 
@@ -33,6 +46,57 @@ export default function ShopPage() {
           </div>
         }
       />
+
+      {/* Bot purchase eligibility (UI-level only) */}
+      <div className="mt-6">
+        <Card
+          title="Trading Bot Purchase"
+          subtitle="Eligibility is read-only and provided by the backend (mocked in Phase 4)."
+          actions={
+            <button
+              disabled={eligibility ? eligibility.canPurchaseBot === false : true}
+              className={`h-10 px-5 rounded-full text-sm font-semibold ${
+                eligibility && eligibility.canPurchaseBot === false
+                  ? "bg-slate-200 text-slate-500 cursor-not-allowed"
+                  : eligibility
+                  ? "bg-teal-900 text-white hover:bg-teal-800"
+                  : "bg-slate-200 text-slate-500 cursor-not-allowed"
+              }`}
+            >
+              Purchase Bot
+            </button>
+          }
+        >
+          {eligibility ? (
+            eligibility.canPurchaseBot ? (
+              <div className="text-sm text-slate-700">
+                Eligible to purchase.{" "}
+                {eligibility.maxBotTier ? (
+                  <span>
+                    Max tier: <span className="font-bold">{eligibility.maxBotTier}</span>
+                  </span>
+                ) : null}
+              </div>
+            ) : (
+              <div className="text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                <div className="font-extrabold">Bot purchase locked</div>
+                <div className="mt-1">
+                  {eligibility.maxBotTier ? (
+                    <span>
+                      Eligible up to Tier <span className="font-bold">{eligibility.maxBotTier}</span>
+                    </span>
+                  ) : (
+                    <span>Eligibility tier will be provided by the backend.</span>
+                  )}
+                </div>
+                <EligibilityReasons reasons={eligibility.reasons} />
+              </div>
+            )
+          ) : (
+            <div className="text-sm text-slate-600">Loading eligibility…</div>
+          )}
+        </Card>
+      </div>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {rows.map((p) => (

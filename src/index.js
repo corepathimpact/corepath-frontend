@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BackofficeProvider } from "./context/BackofficeContext";
+import EligibilityBootstrap from "./context/EligibilityBootstrap";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BackofficeProvider>
-      <App />
+      <EligibilityBootstrap>
+        <App />
+      </EligibilityBootstrap>
     </BackofficeProvider>
   </React.StrictMode>
 );

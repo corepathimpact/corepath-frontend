@@ -29,6 +29,12 @@ export function fetchBackofficeData() {
       sources: ["Learning", "Impact Transfer", "PAG"],
       locked: false,
     },
+    eligibility: {
+      can_withdraw: true,
+      can_purchase_bot: true,
+      max_bot_tier: "300",
+      reasons: [],
+    },
     impact: {
       its0: 1,
       its1: 4,

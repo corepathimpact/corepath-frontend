@@ -3,6 +3,7 @@ import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
 import StatCard from "../../components/ui/StatCard";
 import { useBackoffice } from "../../context/BackofficeContext";
+import { useEligibility } from "../../context/EligibilityContext";
 
 function ProgressBar({ pct }) {
   const safe = Math.max(0, Math.min(100, Number(pct || 0)));
@@ -80,13 +81,25 @@ function ChildCard({ child }) {
   );
 }
 
+function EligibilityReasons({ reasons }) {
+  if (!Array.isArray(reasons) || reasons.length === 0) return null;
+  return (
+    <ul className="mt-3 list-disc pl-5 text-xs text-slate-700">
+      {reasons.map((r, idx) => (
+        <li key={`${idx}-${r}`}>{r}</li>
+      ))}
+    </ul>
+  );
+}
+
 export default function MyOfficePage() {
   const { training, performance, financials, impact, pag, children, derived } =
     useBackoffice() || {};
+  const eligibility = useEligibility();
 
   const apatToday = performance?.apatToday ?? 0;
   const apatAverage = performance?.apatAverage ?? 0;
-  const walletLocked = Boolean(financials?.locked);
+  const walletLocked = eligibility ? eligibility.canWithdraw === false : Boolean(financials?.locked);
   const hasPag = Boolean(pag && pag.id);
   const hasChildren = Array.isArray(children) && children.length > 0;
   const trainingCompletionPct = derived?.trainingCompletionPct ?? 0;
@@ -111,6 +124,11 @@ export default function MyOfficePage() {
             Placeholder — will be driven by the VDP daily execution orchestrator.
           </div>
         </Card>
+        {apatToday < 60 ? (
+          <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <span className="font-extrabold">⚠️ Low APAT today</span> — complete today’s value practices.
+          </div>
+        ) : null}
       </div>
 
       {/* SECTION B: Upper Grid (3 Columns) */}
@@ -144,9 +162,50 @@ export default function MyOfficePage() {
         <div className="lg:col-span-4 space-y-4">
           <Card title="My Financials (summary)" subtitle="Placeholder">
             <StatCard label="Wallet Balance" value={financials?.walletBalance ?? "—"} />
+            <div className="mt-3 flex items-center gap-3">
+              <button
+                disabled={walletLocked}
+                className={`h-10 px-5 rounded-full text-sm font-semibold ${
+                  walletLocked
+                    ? "bg-slate-200 text-slate-500 cursor-not-allowed"
+                    : "bg-teal-900 text-white hover:bg-teal-800"
+                }`}
+              >
+                Withdraw
+              </button>
+              <button
+                disabled={eligibility ? eligibility.canPurchaseBot === false : false}
+                className={`h-10 px-5 rounded-full text-sm font-semibold ${
+                  eligibility && eligibility.canPurchaseBot === false
+                    ? "bg-slate-200 text-slate-500 cursor-not-allowed"
+                    : "border border-slate-300 text-slate-800 hover:bg-slate-50"
+                }`}
+              >
+                Purchase Bot
+              </button>
+            </div>
+
             {walletLocked ? (
-              <div className="mt-3 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
-                Wallet Locked — Improve Learning Consistency
+              <div className="mt-3 text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                <div className="font-extrabold">🔒 Wallet locked due to learning inconsistency</div>
+                <div className="mt-1">Improve daily APAT to unlock withdrawals.</div>
+                <EligibilityReasons reasons={eligibility?.reasons} />
+              </div>
+            ) : null}
+
+            {eligibility && eligibility.canPurchaseBot === false ? (
+              <div className="mt-3 text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                <div className="font-extrabold">Bot purchase locked</div>
+                <div className="mt-1">
+                  {eligibility.maxBotTier ? (
+                    <span>
+                      Eligible up to Tier <span className="font-bold">{eligibility.maxBotTier}</span>
+                    </span>
+                  ) : (
+                    <span>Eligibility tier will be provided by the backend.</span>
+                  )}
+                </div>
+                <EligibilityReasons reasons={eligibility.reasons} />
               </div>
             ) : null}
           </Card>
@@ -201,6 +260,11 @@ export default function MyOfficePage() {
       {/* SECTION D: Children’s Corner */}
       <div className="mt-8">
         <SectionHeader title="Children’s Corner" subtitle="Child cards (mock placeholders)." />
+        {apatToday < 60 ? (
+          <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            Parent consistency affects household momentum. (UI-only notice)
+          </div>
+        ) : null}
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {hasChildren ? (
             children.map((c) => (

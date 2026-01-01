@@ -20,6 +20,7 @@ export function BackofficeProvider({ children }) {
   const [impact, setImpact] = useState(adaptImpact(null));
   const [pag, setPag] = useState(null);
   const [childList, setChildren] = useState([]);
+  const [rawEligibility, setRawEligibility] = useState(null);
 
   useEffect(() => {
     let mounted = true;
@@ -31,6 +32,7 @@ export function BackofficeProvider({ children }) {
       setFinancials(adaptFinancials(api.financials));
       setImpact(adaptImpact(api.impact));
       setPag(adaptPag(api.pag));
+      setRawEligibility(api.eligibility || null);
       setChildren((api.children || []).map(adaptChild).filter(Boolean));
     });
     return () => {
@@ -64,6 +66,7 @@ export function BackofficeProvider({ children }) {
         impact,
         pag,
         children: childList,
+        rawEligibility,
         derived,
       }}
     >
