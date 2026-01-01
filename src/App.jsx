@@ -35,6 +35,18 @@ import ActivateSolution from "./pages/ActivateSolution";
 import RaeAdmin from "./pages/RaeAdmin";
 
 import RequireAuth from "./components/auth/RequireAuth";
+import { isAuthenticated } from "./services/authStorage";
+import BackofficeLayout from "./layouts/BackofficeLayout";
+
+// Backoffice pages (VDP/VDL Parent)
+import HomePage from "./pages/backoffice/HomePage";
+import WelcomePage from "./pages/backoffice/WelcomePage";
+import MyOfficePage from "./pages/backoffice/MyOfficePage";
+import BackofficeSolutionsPage from "./pages/backoffice/SolutionsPage";
+import BackofficeCoursesPage from "./pages/backoffice/CoursesPage";
+import AccountOverviewPage from "./pages/backoffice/AccountOverviewPage";
+import ShopPage from "./pages/backoffice/ShopPage";
+import PromotionsPage from "./pages/backoffice/PromotionsPage";
 
 import Solutions from "./pages/Solutions";
 
@@ -46,6 +58,14 @@ import SolutionsDiscoveryDiagnostic from "./pages/SolutionsDiscoveryDiagnostic";
 import SolutionsDiscoveryCharacterBooth from "./pages/SolutionsDiscoveryCharacterBooth";
 import SolutionsDiscoveryPathfinder from "./pages/SolutionsDiscoveryPathfinder";
 import SolutionsDiscoveryNaturalPredispositions from "./pages/SolutionsDiscoveryNaturalPredispositions";
+
+function BackofficeRoute({ children }) {
+  return (
+    <RequireAuth>
+      <BackofficeLayout>{children}</BackofficeLayout>
+    </RequireAuth>
+  );
+}
 
 function App() {
   return (
@@ -98,13 +118,45 @@ function App() {
             <Navigate to="/solutions/organizations-workplaces" replace />
           }
         />
-        <Route path="/courses" element={<Courses />} />
+        {/* Public marketing courses remain available when not authenticated via conditional /courses route below */}
 
         <Route path="/products" element={<Products />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/get-started/*" element={<GetStarted />} />
+
+        {/* ✅ VDP/VDL Parent Backoffice routes (render inside BackofficeLayout) */}
+        <Route path="/home" element={<BackofficeRoute><HomePage /></BackofficeRoute>} />
+        <Route path="/welcome" element={<BackofficeRoute><WelcomePage /></BackofficeRoute>} />
+        <Route path="/my-office" element={<BackofficeRoute><MyOfficePage /></BackofficeRoute>} />
+        <Route
+          path="/solutions"
+          element={
+            isAuthenticated() ? (
+              <BackofficeRoute>
+                <BackofficeSolutionsPage />
+              </BackofficeRoute>
+            ) : (
+              <Solutions />
+            )
+          }
+        />
+        <Route
+          path="/courses"
+          element={
+            isAuthenticated() ? (
+              <BackofficeRoute>
+                <BackofficeCoursesPage />
+              </BackofficeRoute>
+            ) : (
+              <Courses />
+            )
+          }
+        />
+        <Route path="/account-overview" element={<BackofficeRoute><AccountOverviewPage /></BackofficeRoute>} />
+        <Route path="/shop" element={<BackofficeRoute><ShopPage /></BackofficeRoute>} />
+        <Route path="/promotions" element={<BackofficeRoute><PromotionsPage /></BackofficeRoute>} />
 
         {/* ✅ Post-login: Back Office (portal landing) */}
         <Route
@@ -137,7 +189,7 @@ function App() {
         {/* ✅ Admin-only: RAE governed content console */}
         <Route path="/rae-admin/*" element={<RaeAdmin />} />
 
-        <Route path="/solutions" element={<Solutions />} />
+        {/* Public marketing solutions remain available when not authenticated via conditional /solutions route above */}
 
         {/* ✅ Solutions (Audience-based) */}
         <Route path="/solutions/parents" element={<SolutionsParents />} />
