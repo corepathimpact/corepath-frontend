@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAuth } from "./authStorage";
 
 // NOTE: This project currently uses CRA (react-scripts), not Vite.
 // We intentionally read the base URL from environment variables to avoid hardcoding.
@@ -8,7 +9,13 @@ import axios from "axios";
 //
 // (If you later migrate to Vite, you can map this to VITE_API_BASE_URL externally.)
 
-const baseURL = process.env.REACT_APP_API_BASE_URL;
+function normalizeApiBaseUrl(raw) {
+  if (!raw) return "/api/v1";
+  const trimmed = String(raw).trim().replace(/\/+$/, "");
+  return trimmed.endsWith("/api/v1") ? trimmed : `${trimmed}/api/v1`;
+}
+
+const baseURL = normalizeApiBaseUrl(process.env.REACT_APP_API_BASE_URL);
 
 export const apiClient = axios.create({
   baseURL,
@@ -19,7 +26,8 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
+  const token =
+    localStorage.getItem("accessToken") || getAuth()?.token || null;
   if (token) {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
