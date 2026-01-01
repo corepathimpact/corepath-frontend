@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
 import StatCard from "../../components/ui/StatCard";
-import { mockCarouselSlides, mockMonthTabs, mockQuickTiles } from "./mock/backofficeMock";
+import { mockApatMonthlyTrend, mockCarouselSlides, mockMonthTabs, mockQuickTiles } from "./mock/backofficeMock";
 import { useBackoffice } from "../../context/BackofficeContext";
+import { ApatTrendChart } from "../../components/analytics";
 
 function HeroCarousel() {
   const [idx, setIdx] = useState(0);
@@ -167,9 +168,13 @@ function PerformanceDashboard() {
           title={`APAT Trend (${tab})`}
           subtitle={onTrack ? "You’re on track" : "Catch up today"}
         >
-          <div className="h-40 rounded-2xl border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-sm text-slate-500">
-            Chart placeholder
-          </div>
+          {Array.isArray(mockApatMonthlyTrend) && mockApatMonthlyTrend.length > 0 ? (
+            <ApatTrendChart data={mockApatMonthlyTrend} />
+          ) : (
+            <div className="h-40 rounded-2xl border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-sm text-slate-500">
+              Data will appear as learning continues
+            </div>
+          )}
         </Card>
         <Card title="View My Performance" subtitle="Placeholder">
           <div className="grid grid-cols-2 gap-3">

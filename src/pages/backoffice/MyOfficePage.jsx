@@ -4,6 +4,12 @@ import SectionHeader from "../../components/ui/SectionHeader";
 import StatCard from "../../components/ui/StatCard";
 import { useBackoffice } from "../../context/BackofficeContext";
 import { useEligibility } from "../../context/EligibilityContext";
+import {
+  ChildProgressRadial,
+  ImpactFunnel,
+  LearningCompletionDonut,
+  PagScoreBarChart,
+} from "../../components/analytics";
 
 function ProgressBar({ pct }) {
   const safe = Math.max(0, Math.min(100, Number(pct || 0)));
@@ -46,9 +52,14 @@ function ChildCard({ child }) {
       title={child.name}
       subtitle={`Predisposition: ${child.predisposition}`}
       actions={
-        <button className="h-9 px-3 rounded-xl bg-teal-900 text-white text-sm font-semibold hover:bg-teal-800">
-          Dashboard
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:block">
+            <ChildProgressRadial value={child.progressPct} />
+          </div>
+          <button className="h-9 px-3 rounded-xl bg-teal-900 text-white text-sm font-semibold hover:bg-teal-800">
+            Dashboard
+          </button>
+        </div>
       }
     >
       <div className="space-y-3">
@@ -135,9 +146,17 @@ export default function MyOfficePage() {
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="lg:col-span-4 space-y-4">
           <Card title="My VDL Training Progress" subtitle="Placeholder">
-            <div className="grid grid-cols-2 gap-3">
-              <StatCard label="Values Covered" value={`${training?.valuesCovered ?? 0}/${training?.totalValues ?? 0}`} />
-              <StatCard label="Completion" value={`${trainingCompletionPct}%`} tone={trainingCompletionPct === 100 ? "good" : "neutral"} />
+            <LearningCompletionDonut completedPct={trainingCompletionPct} />
+            <div className="mt-2 grid grid-cols-2 gap-3">
+              <StatCard
+                label="Values Covered"
+                value={`${training?.valuesCovered ?? 0}/${training?.totalValues ?? 0}`}
+              />
+              <StatCard
+                label="Completion"
+                value={`${trainingCompletionPct}%`}
+                tone={trainingCompletionPct === 100 ? "good" : "neutral"}
+              />
             </div>
             <div className="mt-3 text-sm text-slate-700">
               Current Value: <span className="font-bold">{training?.currentValue || "—"}</span>
@@ -210,23 +229,28 @@ export default function MyOfficePage() {
             ) : null}
           </Card>
           <Card title="My Impact Growth" subtitle="Placeholder">
-            <div className="space-y-2 text-sm text-slate-700">
-              <div className="flex justify-between"><span>ITS0</span><span className="font-bold">{impact?.its0 ?? "—"}</span></div>
-              <div className="flex justify-between"><span>ITS1</span><span className="font-bold">{impact?.its1 ?? "—"}</span></div>
-              <div className="flex justify-between"><span>ITS2</span><span className="font-bold">{impact?.its2 ?? "—"}</span></div>
-              <div className="flex justify-between"><span>ITS3</span><span className="font-bold">{impact?.its3 ?? "—"}</span></div>
-              <div className="flex justify-between"><span>ITS4</span><span className="font-bold">{impact?.its4 ?? "—"}</span></div>
-              <div className="mt-2 flex justify-between"><span>Active Members</span><span className="font-bold">{impact?.activeMembers ?? "—"}</span></div>
-              <div className="flex justify-between"><span>Inactive Members</span><span className="font-bold">{impact?.inactiveMembers ?? "—"}</span></div>
+            <ImpactFunnel
+              its0={impact?.its0 ?? 0}
+              its1={impact?.its1 ?? 0}
+              its2={impact?.its2 ?? 0}
+              its3={impact?.its3 ?? 0}
+              its4={impact?.its4 ?? 0}
+            />
+            <div className="mt-2 grid grid-cols-2 gap-3">
+              <StatCard label="Active Members" value={impact?.activeMembers ?? "—"} />
+              <StatCard label="Inactive Members" value={impact?.inactiveMembers ?? "—"} />
             </div>
           </Card>
           <Card title="My PAG" subtitle="Placeholder">
             {hasPag ? (
-              <div className="grid grid-cols-2 gap-3">
-                <StatCard label="PAG ID" value={pag.id} />
-                <StatCard label="Coach" value={pag.coach} />
-                <StatCard label="Members" value={pag.members} />
-                <StatCard label="Wallet" value={pag.wallet} />
+              <div className="space-y-3">
+                <PagScoreBarChart today={pag.scoreToday} week={pag.scoreWeek} month={pag.scoreMonth} />
+                <div className="grid grid-cols-2 gap-3">
+                  <StatCard label="PAG ID" value={pag.id} />
+                  <StatCard label="Coach" value={pag.coach} />
+                  <StatCard label="Members" value={pag.members} />
+                  <StatCard label="Wallet" value={pag.wallet} />
+                </div>
               </div>
             ) : (
               <div className="text-sm text-slate-600">

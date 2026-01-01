@@ -61,6 +61,13 @@ export const mockQuickTiles = [
 
 export const mockMonthTabs = ["JAN", "FEB", "MAR"];
 
+// Mock trend data for charts (Phase 5). This is placeholder-only until backend analytics arrive.
+export const mockApatMonthlyTrend = [
+  { label: "Jan", apat: 72 },
+  { label: "Feb", apat: 75 },
+  { label: "Mar", apat: 78 },
+];
+
 export const mockChildren = [
   {
     id: "child-1",
