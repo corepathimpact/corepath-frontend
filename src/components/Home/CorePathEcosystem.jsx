@@ -36,7 +36,7 @@ export default function CorePathEcosystem() {
       icon: <Users className="w-12 h-12 text-green-300" />,
       description:
         "Equips parents to raise value-driven families using structure, accountability, and faith-centered parenting strategies that train the heart, not just behavior.",
-      link: "/vdp-course",
+      link: "/courses",
       cta: "Enroll Now →",
       color: "from-green-400 to-emerald-600",
     },
@@ -46,7 +46,7 @@ export default function CorePathEcosystem() {
       icon: <GraduationCap className="w-12 h-12 text-blue-300" />,
       description:
         "Transforms schools into value-driven environments through teacher training, student workbooks, and value tracking integrated into daily learning.",
-      link: "/vie-framework",
+      link: "/solutions/schools",
       cta: "Discover VIE →",
       color: "from-sky-400 to-blue-600",
     },
@@ -56,7 +56,7 @@ export default function CorePathEcosystem() {
       icon: <Heart className="w-12 h-12 text-pink-300" />,
       description:
         "Restores purpose, discipline, and direction in youth through mentorship, discipleship, and structured behavior transformation programs.",
-      link: "/vdr-program",
+      link: "/solutions/teens-adults",
       cta: "Explore VDR →",
       color: "from-pink-400 to-rose-500",
     },
@@ -66,7 +66,7 @@ export default function CorePathEcosystem() {
       icon: <Briefcase className="w-12 h-12 text-orange-300" />,
       description:
         "Brings values back to workplaces and leadership spaces through executive coaching, integrity systems, and organizational culture transformation.",
-      link: "/vdl-coaching",
+      link: "/solutions/organizations-workplaces",
       cta: "Join VDL →",
       color: "from-orange-400 to-amber-600",
     },
@@ -76,7 +76,7 @@ export default function CorePathEcosystem() {
       icon: <ShieldCheck className="w-12 h-12 text-teal-300" />,
       description:
         "Trains and licenses Certified Parenting Coaches who multiply transformation by mentoring families, creating Parenting Accountability Groups, and leading communities.",
-      link: "/vdp-cc",
+      link: "/courses",
       cta: "Become a Coach →",
       color: "from-teal-400 to-cyan-600",
     },

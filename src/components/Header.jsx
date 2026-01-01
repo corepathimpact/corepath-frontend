@@ -15,16 +15,32 @@ export default function Header() {
   // State to control mobile menu open/close
   const [isOpen, setIsOpen] = useState(false);
 
+  const solutionItems = [
+    { name: "For Parents", link: "/solutions/parents" },
+    { name: "For Teens & Adults", link: "/solutions/teens-adults" },
+    { name: "For Schools", link: "/solutions/schools" },
+    {
+      name: "For Organizations & Workplaces",
+      link: "/solutions/organizations-workplaces",
+    },
+    {
+      name: "Discovery & Diagnostic",
+      link: "/solutions/discovery-diagnostic",
+    },
+  ];
+
   const navItems = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
-    { name: "Programs", link: "/programs" },
-    { name: "Families", link: "/families" },
-    { name: "Schools", link: "/schools" },
-    { name: "Churches", link: "/churches" },
-    { name: "Organizations", link: "/organizations" },
-    { name: "VDC Toolkit", link: "/vdc-toolkit" },
+    { name: "Solutions", link: "/solutions", children: solutionItems },
+    { name: "Products", link: "/products" },
     { name: "Courses", link: "/courses" },
+    { name: "Resources", link: "/resources" },
+  ];
+
+  const authItems = [
+    { name: "Login", link: "/login" },
+    { name: "Get Started", link: "/get-started" },
   ];
 
   return (
@@ -44,15 +60,59 @@ export default function Header() {
         </div>
 
         {/* ---------- DESKTOP MENU ---------- */}
-        <ul className="hidden md:flex space-x-6 text-sm font-semibold">
-          {navItems.map((item) => (
-            <li key={item.name}>
-              <Link to={item.link} className="hover:text-gold transition">
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="hidden md:flex items-center gap-6">
+          <ul className="flex space-x-6 text-sm font-semibold">
+            {navItems.map((item) => {
+              if (!item.children) {
+                return (
+                  <li key={item.name}>
+                    <Link to={item.link} className="hover:text-gold transition">
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+              }
+
+              return (
+                <li key={item.name} className="relative group">
+                  <Link to={item.link} className="hover:text-gold transition">
+                    {item.name}
+                  </Link>
+                  <div className="absolute left-0 top-full pt-2 hidden group-hover:block group-focus-within:block">
+                    <div className="bg-turquoise text-white rounded shadow-md py-2 min-w-48">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.name}
+                          to={child.link}
+                          className="block px-4 py-2 text-sm hover:text-gold transition"
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+
+          <ul className="flex items-center gap-4 text-xs font-semibold">
+            {authItems.map((item) => (
+              <li key={item.name}>
+                <Link
+                  to={item.link}
+                  className={
+                    item.name === "Get Started"
+                      ? "px-3 py-1 rounded-full bg-white text-turquoise hover:opacity-90 transition"
+                      : "hover:text-gold transition"
+                  }
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* ---------- MOBILE MENU BUTTON ---------- */}
         <button
@@ -91,11 +151,51 @@ export default function Header() {
       {/* ---------- MOBILE MENU DROPDOWN ---------- */}
       {isOpen && (
         <div className="md:hidden bg-turquoise/95 text-center pb-4 space-y-3">
-          {navItems.map((item) => (
+          {navItems.map((item) => {
+            if (!item.children) {
+              return (
+                <Link
+                  key={item.name}
+                  to={item.link}
+                  className="block text-white hover:text-gold transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={item.name}>
+                <Link
+                  to={item.link}
+                  className="block text-white hover:text-gold transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+                <div className="mt-2 space-y-2">
+                  {item.children.map((child) => (
+                    <Link
+                      key={child.name}
+                      to={child.link}
+                      className="block text-white/90 hover:text-gold transition"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {child.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+
+          <div className="pt-2 border-t border-white/20" />
+          {authItems.map((item) => (
             <Link
               key={item.name}
               to={item.link}
-              className="block text-white hover:text-gold transition"
+              className="block text-white hover:text-gold transition text-sm"
               onClick={() => setIsOpen(false)}
             >
               {item.name}

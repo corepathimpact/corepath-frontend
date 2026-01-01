@@ -38,8 +38,8 @@ export default function Footer() {
             className="w-24 mb-4"
           />
           <p className="text-sm leading-relaxed text-gray-300">
-            Transforming families, schools, and communities through intentional
-            value formation — one child, one parent, one leader at a time.
+            Making values teachable, trainable, and liveable across families,
+            schools, communities, and organizations.
           </p>
         </div>
 
@@ -55,7 +55,10 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="/about" className="hover:text-teal-400 transition-colors">
+              <a
+                href="/about"
+                className="hover:text-teal-400 transition-colors"
+              >
                 About Us
               </a>
             </li>
@@ -131,7 +134,10 @@ export default function Footer() {
             {[
               { icon: Facebook, link: "https://facebook.com/corepathimpact" },
               { icon: Instagram, link: "https://instagram.com/corepathimpact" },
-              { icon: Linkedin, link: "https://linkedin.com/company/corepathimpact" },
+              {
+                icon: Linkedin,
+                link: "https://linkedin.com/company/corepathimpact",
+              },
               { icon: Youtube, link: "https://youtube.com/@corepathimpact" },
             ].map(({ icon: Icon, link }, i) => (
               <a

@@ -157,16 +157,16 @@ export default function SchoolsDetails() {
               learning environments.
             </li>
             <li>
-              Learners who demonstrate respect, diligence, empathy, and teamwork.
+              Learners who demonstrate respect, diligence, empathy, and
+              teamwork.
             </li>
-            <li>
-              Teachers who mentor through example, not just instruction.
-            </li>
+            <li>Teachers who mentor through example, not just instruction.</li>
             <li>
               Parents who align with school values for home-school consistency.
             </li>
             <li>
-              Institutions that measure success through both grades and character.
+              Institutions that measure success through both grades and
+              character.
             </li>
             <li>
               Communities shaped by schools that stand as beacons of virtue.
@@ -219,12 +219,12 @@ export default function SchoolsDetails() {
          🔹 BACK LINK
          ------------------------------------------------------------- */}
       <div className="text-center pb-20">
-        <a
-          href="/#schools-section"
+        <Link
+          to="/?scroll=schools-section"
           className="inline-block px-8 py-3 bg-teal-900 text-white rounded-full font-medium hover:bg-teal-700 transition-all duration-300"
         >
           ← Back to Schools Section
-        </a>
+        </Link>
       </div>
     </section>
   );

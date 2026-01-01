@@ -52,8 +52,8 @@ export default function OrganizationsDetails() {
               Through this pillar, CorePath Impact helps organizations embed
               value-based leadership, integrity systems, and transformational
               workplace cultures that produce both{" "}
-              <strong>excellence and ethics</strong>. Our goal is to ensure
-              that values are not just written on walls but{" "}
+              <strong>excellence and ethics</strong>. Our goal is to ensure that
+              values are not just written on walls but{" "}
               <strong>lived in the halls</strong> — practiced daily in
               decision-making, teamwork, and service.
             </p>
@@ -167,8 +167,7 @@ export default function OrganizationsDetails() {
                   phase: "Align",
                   focus:
                     "Integrate values into systems, structures, and processes.",
-                  outcome:
-                    "Consistency between policies and daily practice.",
+                  outcome: "Consistency between policies and daily practice.",
                 },
                 {
                   phase: "Train",
@@ -192,10 +191,7 @@ export default function OrganizationsDetails() {
                     "A thriving workplace culture that sustains excellence and ethics.",
                 },
               ].map((row, i) => (
-                <tr
-                  key={i}
-                  className={i % 2 === 0 ? "bg-gray-50" : "bg-white"}
-                >
+                <tr key={i} className={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
                   <td className="py-3 px-4 font-semibold text-teal-700">
                     {row.phase}
                   </td>
@@ -349,12 +345,12 @@ export default function OrganizationsDetails() {
          🔹 BACK LINK
          ------------------------------------------------------------- */}
       <div className="text-center pb-20">
-        <a
-          href="/#organizations-section"
+        <Link
+          to="/?scroll=organizations-section"
           className="inline-block px-8 py-3 bg-teal-900 text-white rounded-full font-medium hover:bg-teal-700 transition-all duration-300"
         >
           ← Back to Organizations Section
-        </a>
+        </Link>
       </div>
     </section>
   );

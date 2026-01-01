@@ -66,9 +66,11 @@ export default function ImpactStatement() {
           Every leader, worker, minister, or thief was once an innocent child in
           someone’s hands. The difference between who transforms society and who
           breaks it lies in one thing — the{" "}
-          <span className="font-semibold text-white">values planted early.</span>{" "}
-          At CorePath Impact, we’re restoring intentional value formation —
-          one parent, one school, one child at a time.
+          <span className="font-semibold text-white">
+            values planted early.
+          </span>{" "}
+          At CorePath Impact, we’re restoring intentional value formation — one
+          parent, one school, one child at a time.
         </motion.p>
 
         {/* --- Buttons Grid --- */}
@@ -84,8 +86,8 @@ export default function ImpactStatement() {
             {
               id: 2,
               icon: <Users className="w-5 h-5" />,
-              text: "Join a Parenting Class",
-              link: "/vdp-course",
+              text: "Explore Our Training Courses",
+              link: "/courses",
               color: "bg-white text-teal-900 hover:bg-teal-100",
             },
             {

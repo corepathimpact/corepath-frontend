@@ -57,7 +57,8 @@ and responsible character.`,
     <section
       className="relative py-10 px-4 md:px-12"
       style={{
-        background: "linear-gradient(135deg, #eefdfb 0%, #ffffff 50%, #e8fbf6 100%)",
+        background:
+          "linear-gradient(135deg, #eefdfb 0%, #ffffff 50%, #e8fbf6 100%)",
       }}
     >
       <div className="relative max-w-7xl mx-auto z-10">
@@ -67,7 +68,6 @@ and responsible character.`,
 
         {/* GRID OF 4 CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-
           {items.map((item) => {
             const isActive = active === item.id;
 
@@ -83,7 +83,6 @@ and responsible character.`,
                   layout
                   className="relative bg-white/70 backdrop-blur-xl border border-transparent
                              rounded-2xl shadow-md cursor-pointer p-4 text-center"
-                  
                   animate={{
                     scale: isActive ? 1.15 : 1,
                     zIndex: isActive ? 40 : 1,
@@ -91,14 +90,14 @@ and responsible character.`,
                     boxShadow: isActive
                       ? "0 35px 70px rgba(0,0,0,0.22)"
                       : "0 6px 18px rgba(0,0,0,0.1)",
-                    borderColor: isActive ? "rgba(13,148,136,0.6)" : "transparent",
+                    borderColor: isActive
+                      ? "rgba(13,148,136,0.6)"
+                      : "transparent",
                   }}
-                  
                   transition={{
                     layout: { duration: 0.35, ease: "easeOut" },
                     scale: { type: "spring", stiffness: 120, damping: 12 },
                   }}
-
                   style={{
                     position: "absolute",
                     width: "100%",
@@ -107,7 +106,6 @@ and responsible character.`,
                     transformOrigin: "top center",
                   }}
                 >
-
                   {/* ICON */}
                   <div className="text-4xl text-teal-700 mb-2">{item.icon}</div>
 
@@ -138,25 +136,45 @@ and responsible character.`,
               </div>
             );
           })}
-
         </div>
 
         {/* ------------------------------------------------------------
             🌱 THEORY OF CHANGE (NEW TEXT INSERTED HERE)
         ------------------------------------------------------------ */}
         <div className="mt-10 text-center max-w-3xl mx-auto">
-          <h3 className="text-xl font-bold text-teal-700 mb-2">🌱 Theory of Change</h3>
+          <h3 className="text-xl font-bold text-teal-700 mb-2">
+            🌱 Theory of Change
+          </h3>
 
           <p className="text-gray-800 text-base leading-relaxed font-semibold">
-            We believe that when <span className="text-teal-700 font-bold">
-            parents, educators, and mentors are equipped with structured, values-based systems</span>:
+            We believe that when{" "}
+            <span className="text-teal-700 font-bold">
+              parents, educators, and mentors are equipped with structured,
+              values-based systems
+            </span>
+            :
           </p>
 
           <div className="text-gray-700 text-sm leading-relaxed mt-3 space-y-1">
-            <p>→ They raise children of <strong>character and conviction</strong>,</p>
-            <p>→ Who grow into <strong>responsible, purpose-driven adults</strong>,</p>
-            <p>→ Who build <strong>healthy families, strong schools, and value-anchored communities</strong>,</p>
-            <p>→ Ultimately driving <strong>national transformation grounded in godly values</strong>.</p>
+            <p>
+              → They raise children of <strong>character and conviction</strong>
+              ,
+            </p>
+            <p>
+              → Who grow into{" "}
+              <strong>responsible, purpose-driven adults</strong>,
+            </p>
+            <p>
+              → Who build{" "}
+              <strong>
+                healthy families, strong schools, and value-anchored communities
+              </strong>
+              ,
+            </p>
+            <p>
+              → Ultimately driving{" "}
+              <strong>national transformation grounded in godly values</strong>.
+            </p>
           </div>
         </div>
 
@@ -164,7 +182,6 @@ and responsible character.`,
             CTA BUTTONS
         ------------------------------------------------------------ */}
         <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-4">
-
           <motion.a
             href="/products"
             whileHover={{ scale: 1.08, y: -4 }}
@@ -176,13 +193,13 @@ and responsible character.`,
           </motion.a>
 
           <motion.a
-            href="/programs"
+            href="/solutions/parents"
             whileHover={{ scale: 1.08, y: -4 }}
             transition={{ type: "spring", stiffness: 160, damping: 12 }}
             className="px-7 py-3 rounded-full font-semibold text-teal-800 bg-white border border-teal-500 shadow 
                        hover:bg-teal-600 hover:text-white hover:shadow-2xl transition-all duration-300 tracking-wide"
           >
-            Check Our Programs
+            Check Our Solutions
           </motion.a>
 
           <motion.a
@@ -194,9 +211,7 @@ and responsible character.`,
           >
             Access Online Parenting Tools
           </motion.a>
-
         </div>
-
       </div>
     </section>
   );

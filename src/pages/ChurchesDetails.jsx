@@ -123,8 +123,7 @@ export default function ChurchesDetails() {
               , helping families track and reinforce growth.
             </li>
             <li>
-              Train pastors and family ministry leaders to run
-              church-based{" "}
+              Train pastors and family ministry leaders to run church-based{" "}
               <Link
                 to="/vdp"
                 className="text-teal-700 font-semibold hover:underline"
@@ -134,8 +133,7 @@ export default function ChurchesDetails() {
               programs.
             </li>
             <li>
-              Develop workshops such as{" "}
-              <strong>Parenting as a Calling</strong>,{" "}
+              Develop workshops such as <strong>Parenting as a Calling</strong>,{" "}
               <strong>Values-Driven Discipleship</strong>, and{" "}
               <strong>Restoring the Family Altar</strong>.
             </li>
@@ -176,9 +174,7 @@ export default function ChurchesDetails() {
             </thead>
             <tbody className="text-gray-700">
               <tr className="border-t">
-                <td className="py-3 px-4 font-semibold text-teal-700">
-                  Equip
-                </td>
+                <td className="py-3 px-4 font-semibold text-teal-700">Equip</td>
                 <td className="py-3 px-4">
                   Train pastors, Sunday school teachers, youth facilitators, and
                   parents with tools for values-based discipleship.
@@ -188,9 +184,7 @@ export default function ChurchesDetails() {
                 </td>
               </tr>
               <tr className="border-t bg-gray-50">
-                <td className="py-3 px-4 font-semibold text-teal-700">
-                  Embed
-                </td>
+                <td className="py-3 px-4 font-semibold text-teal-700">Embed</td>
                 <td className="py-3 px-4">
                   Ingrain values into all church programs — sermons, Sunday
                   school, youth and parenting ministries.
@@ -250,12 +244,10 @@ export default function ChurchesDetails() {
               </Link>
               .
             </li>
+            <li>Churches functioning as community transformation centers.</li>
             <li>
-              Churches functioning as community transformation centers.
-            </li>
-            <li>
-              Faith communities that nurture believers who embody kingdom
-              values daily.
+              Faith communities that nurture believers who embody kingdom values
+              daily.
             </li>
           </ul>
 
@@ -306,12 +298,12 @@ export default function ChurchesDetails() {
          🔹 BACK LINK
          ------------------------------------------------------------- */}
       <div className="text-center pb-20">
-        <a
-          href="/#churches-section"
+        <Link
+          to="/?scroll=churches-section"
           className="inline-block px-8 py-3 bg-teal-900 text-white rounded-full font-medium hover:bg-teal-700 transition-all duration-300"
         >
           ← Back to Churches Section
-        </a>
+        </Link>
       </div>
     </section>
   );

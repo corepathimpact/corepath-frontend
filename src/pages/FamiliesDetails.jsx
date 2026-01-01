@@ -47,8 +47,8 @@ export default function FamiliesDetails() {
             </h2>
             <p className="text-lg text-gray-700 mb-5">
               The Family Pillar focuses on restoring the home as the{" "}
-              <strong>seedbed of transformation</strong> — where values are first
-              modeled, practiced, and reinforced. The family is the first
+              <strong>seedbed of transformation</strong> — where values are
+              first modeled, practiced, and reinforced. The family is the first
               classroom of life and the most powerful influence on a child’s
               heart.
             </p>
@@ -72,62 +72,61 @@ export default function FamiliesDetails() {
         </div>
       </div>
 
-         {/* -------------------------------------------------------------
+      {/* -------------------------------------------------------------
    🔹 OUR APPROACH SECTION (Image on Side)
    ------------------------------------------------------------- */}
-<div className="bg-teal-50 py-16 px-6 md:px-10">
-  <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-    {/* --- TEXT --- */}
-    <div>
-      <h2 className="text-2xl md:text-3xl font-bold text-teal-800 mb-6">
-        🌱 Our Approach within the Family Pillar
-      </h2>
-      <p className="text-lg mb-6 text-gray-700">
-        We use the{" "}
-        <Link
-          to="/values-driven-parenting"
-          className="text-teal-700 font-semibold hover:underline"
-        >
-          Values-Driven Parenting (VDP) Framework
-        </Link>{" "}
-        to help parents:
-      </p>
+      <div className="bg-teal-50 py-16 px-6 md:px-10">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          {/* --- TEXT --- */}
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-teal-800 mb-6">
+              🌱 Our Approach within the Family Pillar
+            </h2>
+            <p className="text-lg mb-6 text-gray-700">
+              We use the{" "}
+              <Link
+                to="/values-driven-parenting"
+                className="text-teal-700 font-semibold hover:underline"
+              >
+                Values-Driven Parenting (VDP) Framework
+              </Link>{" "}
+              to help parents:
+            </p>
 
-      <ul className="list-disc pl-8 space-y-3 text-gray-700 text-lg mb-8">
-        <li>Train and track daily value practices at home.</li>
-        <li>
-          Build consistency through structured tools such as{" "}
-          <Link
-            to="/vdc-toolkit"
-            className="text-teal-700 font-semibold hover:underline"
-          >
-            VDC Toolkit
-          </Link>
-          , Star Reward Cards, and Corrective Cards.
-        </li>
-        <li>
-          Reinforce godly character through accountability, reflection, and
-          reward systems.
-        </li>
-      </ul>
+            <ul className="list-disc pl-8 space-y-3 text-gray-700 text-lg mb-8">
+              <li>Train and track daily value practices at home.</li>
+              <li>
+                Build consistency through structured tools such as{" "}
+                <Link
+                  to="/vdc-toolkit"
+                  className="text-teal-700 font-semibold hover:underline"
+                >
+                  VDC Toolkit
+                </Link>
+                , Star Reward Cards, and Corrective Cards.
+              </li>
+              <li>
+                Reinforce godly character through accountability, reflection,
+                and reward systems.
+              </li>
+            </ul>
 
-      <p className="text-lg text-gray-700">
-        But training parents is only the first step — sustaining transformation
-        requires community.
-      </p>
-    </div>
+            <p className="text-lg text-gray-700">
+              But training parents is only the first step — sustaining
+              transformation requires community.
+            </p>
+          </div>
 
-    {/* --- IMAGE --- */}
-    <div className="rounded-2xl overflow-hidden shadow-lg">
-      <img
-        src={`${process.env.PUBLIC_URL}/images/vdc-toolkit.jpg`}
-        alt="VDC Toolkit for Parenting"
-        className="w-full h-auto object-cover md:max-h-[450px]"
-      />
-    </div>
-  </div>
-</div>
-
+          {/* --- IMAGE --- */}
+          <div className="rounded-2xl overflow-hidden shadow-lg">
+            <img
+              src={`${process.env.PUBLIC_URL}/images/vdc-toolkit.jpg`}
+              alt="VDC Toolkit for Parenting"
+              className="w-full h-auto object-cover md:max-h-[450px]"
+            />
+          </div>
+        </div>
+      </div>
 
       {/* -------------------------------------------------------------
          🔹 PAG SECTION
@@ -138,7 +137,10 @@ export default function FamiliesDetails() {
         </h2>
         <p className="text-lg text-gray-700 mb-6">
           Parenting Accountability Groups (
-          <Link to="/pag" className="text-teal-700 font-semibold hover:underline">
+          <Link
+            to="/pag"
+            className="text-teal-700 font-semibold hover:underline"
+          >
             PAGs
           </Link>
           ) are small guided circles that turn learning into lifestyle — helping
@@ -172,15 +174,21 @@ export default function FamiliesDetails() {
           <li>6–10 parents per accountability circle.</li>
           <li>
             Weekly or biweekly sessions led by a facilitator using{" "}
-            <Link to="/pat" className="text-teal-700 font-semibold hover:underline">
+            <Link
+              to="/pat"
+              className="text-teal-700 font-semibold hover:underline"
+            >
               Parenting Accountability Trackers (PAT)
             </Link>
             .
           </li>
           <li>
-            Reflection Format: <strong>Reflect → Review → Action → Prayer</strong>
+            Reflection Format:{" "}
+            <strong>Reflect → Review → Action → Prayer</strong>
           </li>
-          <li>Support Tools: VDP Manuals, Family Value Trackers, PAG Sheets.</li>
+          <li>
+            Support Tools: VDP Manuals, Family Value Trackers, PAG Sheets.
+          </li>
         </ul>
       </div>
 
@@ -192,7 +200,8 @@ export default function FamiliesDetails() {
           <h2 className="text-3xl font-bold mb-6">💬 Parent Testimonies</h2>
           <p className="text-teal-100 max-w-3xl mx-auto leading-relaxed">
             Real stories from parents who have embraced Values-Driven Parenting
-            and Accountability Groups — walking the journey of transformation together.
+            and Accountability Groups — walking the journey of transformation
+            together.
           </p>
         </div>
 
@@ -251,7 +260,8 @@ export default function FamiliesDetails() {
             >
               VDC Toolkit
             </Link>{" "}
-            that comes with Train-Up Cards, Reward Systems, and Corrective Frameworks.
+            that comes with Train-Up Cards, Reward Systems, and Corrective
+            Frameworks.
           </li>
           <li>
             Empower families to create nurturing environments that promote
@@ -278,12 +288,12 @@ export default function FamiliesDetails() {
          🔹 BACK LINK
          ------------------------------------------------------------- */}
       <div className="text-center pb-20">
-        <a
-          href="/#families-section"
+        <Link
+          to="/?scroll=families-section"
           className="inline-block px-8 py-3 bg-teal-900 text-white rounded-full font-medium hover:bg-teal-700 transition-all duration-300"
         >
           ← Back to Families Section
-        </a>
+        </Link>
       </div>
     </section>
   );

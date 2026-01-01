@@ -7,6 +7,7 @@
 // -------------------------------------------------------------
 
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
 
@@ -107,24 +108,24 @@ function UpcomingEvents() {
               </div>
 
               {/* --- CTA Button --- */}
-              <a
-                href={event.link}
+              <Link
+                to={event.link}
                 className="mt-auto inline-flex items-center gap-2 bg-yellow-400 text-teal-900 font-semibold px-6 py-3 rounded-full shadow-md hover:bg-yellow-300 hover:scale-105 transition-all duration-300"
               >
                 Learn More <ArrowRight size={18} />
-              </a>
+              </Link>
             </motion.div>
           ))}
       </div>
 
       {/* --- FOOTER CTA --- */}
       <div className="text-center mt-20">
-        <a
-          href="/events"
+        <Link
+          to="/events"
           className="inline-block bg-teal-900 text-white font-semibold px-10 py-4 rounded-full shadow-lg hover:bg-teal-700 transition-all duration-300"
         >
           View All Events
-        </a>
+        </Link>
       </div>
     </section>
   );

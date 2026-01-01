@@ -15,6 +15,7 @@
 // -------------------------------------------------------------
 
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // 🔹 Background images — these should be stored in `public/images`
 const heroImages = [
@@ -42,7 +43,6 @@ export default function HeroSection() {
     // Full-screen, covers 100% of the viewport height
     // ==========================================================
     <section className="relative w-full h-screen overflow-hidden text-white">
-
       {/* ========================================================
          🔹 BACKGROUND IMAGE LAYER
          Multiple stacked <img> tags; only the active one is visible.
@@ -56,7 +56,11 @@ export default function HeroSection() {
           className={`
             absolute inset-0 w-full h-full object-cover 
             transition-all duration-[4000ms] ease-in-out
-            ${index === currentImage ? "opacity-100 scale-110" : "opacity-0 scale-100"}
+            ${
+              index === currentImage
+                ? "opacity-100 scale-110"
+                : "opacity-0 scale-100"
+            }
           `}
         />
       ))}
@@ -72,7 +76,6 @@ export default function HeroSection() {
          Centered vertically and horizontally.
       ========================================================= */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
-        
         {/* --- MAIN HEADLINE --- */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight tracking-tight drop-shadow-xl">
           Raising a <span className="text-gold">Values-Driven</span> Generation
@@ -80,8 +83,8 @@ export default function HeroSection() {
 
         {/* --- SUBTEXT --- */}
         <p className="max-w-3xl text-lg md:text-xl mb-8 leading-relaxed drop-shadow-md">
-          Transforming homes, schools, and organizations through values-based
-          parenting, education, and leadership.
+           Making values teachable, trainable, and liveable across families, schools, communities, and
+          organizations.
         </p>
 
         {/* --- TAGLINE --- */}
@@ -91,24 +94,24 @@ export default function HeroSection() {
 
         {/* --- CALL-TO-ACTION BUTTONS --- */}
         <div className="flex flex-col md:flex-row gap-4 justify-center">
-          <a
-            href="/programs"
+          <Link
+            to="/solutions"
             className="bg-gold text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-400 hover:scale-105 transition duration-300 shadow-md"
           >
-            Explore Our Programs
-          </a>
-          <a
-            href="/courses"
+            Explore Our Solutions
+          </Link>
+          <Link
+            to="/courses"
             className="bg-white text-turquoise px-8 py-3 rounded-full font-semibold hover:bg-gray-100 hover:scale-105 transition duration-300 shadow-md"
           >
-            Join a Parenting Class
-          </a>
-          <a
-            href="/store"
+            Explore Our Training Courses
+          </Link>
+          <Link
+            to="/get-started"
             className="border border-white px-8 py-3 rounded-full hover:bg-white hover:text-turquoise hover:scale-105 transition duration-300 shadow-md"
           >
-            Get the VDC Toolkit
-          </a>
+            Get Started
+          </Link>
         </div>
       </div>
 
