@@ -4,6 +4,7 @@ import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
 import StatCard from "../../components/ui/StatCard";
 import { mockCarouselSlides, mockMonthTabs, mockQuickTiles } from "./mock/backofficeMock";
+import { useBackoffice } from "../../context/BackofficeContext";
 
 function HeroCarousel() {
   const [idx, setIdx] = useState(0);
@@ -74,8 +75,13 @@ function QuickAccessTiles() {
 }
 
 function PerformanceDashboard() {
+  const { performance, training, derived } = useBackoffice() || {};
   const [tab, setTab] = useState(mockMonthTabs[0]);
   const tabs = useMemo(() => mockMonthTabs, []);
+  const apatToday = performance?.apatToday ?? 0;
+  const apatAverage = performance?.apatAverage ?? 0;
+  const onTrack = apatToday >= 60;
+  const completed = derived?.trainingCompletionPct === 100;
 
   return (
     <div className="mt-8">
@@ -100,13 +106,28 @@ function PerformanceDashboard() {
       />
 
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card title={`APAT Trend (${tab})`} subtitle="Chart placeholder">
+        <Card
+          title={`APAT Trend (${tab})`}
+          subtitle={onTrack ? "You’re on track" : "Catch up today"}
+        >
           <div className="h-40 rounded-2xl border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-sm text-slate-500">
             Chart placeholder
           </div>
         </Card>
         <Card title="View My Performance" subtitle="Placeholder">
-          <StatCard label="Consistency" value="—" />
+          <div className="grid grid-cols-2 gap-3">
+            <StatCard
+              label="APAT Today"
+              value={apatToday}
+              tone={apatToday < 60 ? "warn" : "good"}
+            />
+            <StatCard label="APAT Average" value={apatAverage} />
+          </div>
+          {apatToday < 60 ? (
+            <div className="mt-3 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+              Low APAT warning (UI-only): try completing today’s practices.
+            </div>
+          ) : null}
         </Card>
         <Card title="My Financials" subtitle="Placeholder">
           <StatCard label="Wallet" value="—" />
@@ -129,6 +150,21 @@ function PerformanceDashboard() {
               <span className="font-bold">—</span>
             </div>
           </div>
+        </Card>
+        <Card title="Training Summary" subtitle="Placeholder">
+          <div className="grid grid-cols-2 gap-3">
+            <StatCard label="Current Value" value={training?.currentValue || "—"} />
+            <StatCard
+              label="Values Completion"
+              value={`${derived?.trainingCompletionPct ?? 0}%`}
+              tone={completed ? "good" : "neutral"}
+            />
+          </div>
+          {completed ? (
+            <div className="mt-3 text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2">
+              Completion state (UI-only): all values covered.
+            </div>
+          ) : null}
         </Card>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { clearAuth, getAuth } from "../services/authStorage";
+import { useBackoffice } from "../context/BackofficeContext";
 
 const NAV_TABS = [
   { label: "HOME", to: "/home" },
@@ -16,15 +17,17 @@ const NAV_TABS = [
 export default function BackofficeLayout({ children }) {
   const navigate = useNavigate();
   const auth = getAuth();
+  const { user: boUser } = useBackoffice() || {};
 
-  const user = useMemo(() => {
+  const displayUser = useMemo(() => {
     const email = auth?.user?.email || "user@corepathimpact.com";
-    const fullName = auth?.user?.fullName || "CorePath Member";
+    const fullName =
+      boUser?.fullName || auth?.user?.fullName || "CorePath Member";
     return { email, fullName };
-  }, [auth]);
+  }, [auth, boUser]);
 
-  const [language, setLanguage] = useState("EN");
-  const [country, setCountry] = useState("US");
+  const [language, setLanguage] = useState(boUser?.language || "EN");
+  const [country, setCountry] = useState(boUser?.country || "Kenya");
   const [menuOpen, setMenuOpen] = useState(false);
 
   const onLogout = () => {
@@ -62,14 +65,15 @@ export default function BackofficeLayout({ children }) {
               onChange={(e) => setCountry(e.target.value)}
               className="h-9 rounded-xl border border-slate-200 bg-white px-3 text-sm"
             >
+              <option value="Kenya">Kenya</option>
               <option value="US">US</option>
-              <option value="NG">NG</option>
-              <option value="GB">GB</option>
+              <option value="NG">Nigeria</option>
+              <option value="GB">UK</option>
             </select>
 
             <div className="hidden md:flex flex-col items-end leading-tight">
-              <div className="text-sm font-extrabold">{user.fullName}</div>
-              <div className="text-xs text-slate-500">{user.email}</div>
+              <div className="text-sm font-extrabold">{displayUser.fullName}</div>
+              <div className="text-xs text-slate-500">{displayUser.email}</div>
             </div>
 
             <div className="relative">
@@ -78,7 +82,7 @@ export default function BackofficeLayout({ children }) {
                 className="h-9 w-9 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-sm font-extrabold"
                 aria-label="Open user menu"
               >
-                {String(user.fullName || "U").trim().slice(0, 1).toUpperCase()}
+                {String(displayUser.fullName || "U").trim().slice(0, 1).toUpperCase()}
               </button>
 
               {menuOpen ? (
@@ -142,7 +146,7 @@ export default function BackofficeLayout({ children }) {
 
               <div className="hidden lg:flex items-center gap-3">
                 <div className="h-9 w-9 rounded-full bg-slate-200 border border-slate-300" />
-                <div className="text-sm font-extrabold">{user.fullName}</div>
+                <div className="text-sm font-extrabold">{displayUser.fullName}</div>
               </div>
             </div>
           </div>

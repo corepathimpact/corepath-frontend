@@ -2,7 +2,7 @@ import React from "react";
 import Card from "../../components/ui/Card";
 import SectionHeader from "../../components/ui/SectionHeader";
 import StatCard from "../../components/ui/StatCard";
-import { mockChildren } from "./mock/backofficeMock";
+import { useBackoffice } from "../../context/BackofficeContext";
 
 function ProgressBar({ pct }) {
   const safe = Math.max(0, Math.min(100, Number(pct || 0)));
@@ -81,6 +81,16 @@ function ChildCard({ child }) {
 }
 
 export default function MyOfficePage() {
+  const { training, performance, financials, impact, pag, children, derived } =
+    useBackoffice() || {};
+
+  const apatToday = performance?.apatToday ?? 0;
+  const apatAverage = performance?.apatAverage ?? 0;
+  const walletLocked = Boolean(financials?.locked);
+  const hasPag = Boolean(pag && pag.id);
+  const hasChildren = Array.isArray(children) && children.length > 0;
+  const trainingCompletionPct = derived?.trainingCompletionPct ?? 0;
+
   return (
     <div>
       <SectionHeader title="My Office" subtitle="Core page (mock placeholders only)." />
@@ -107,12 +117,24 @@ export default function MyOfficePage() {
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="lg:col-span-4 space-y-4">
           <Card title="My VDL Training Progress" subtitle="Placeholder">
-            <div className="h-20 rounded-2xl border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-sm text-slate-500">
-              Progress placeholder
+            <div className="grid grid-cols-2 gap-3">
+              <StatCard label="Values Covered" value={`${training?.valuesCovered ?? 0}/${training?.totalValues ?? 0}`} />
+              <StatCard label="Completion" value={`${trainingCompletionPct}%`} tone={trainingCompletionPct === 100 ? "good" : "neutral"} />
+            </div>
+            <div className="mt-3 text-sm text-slate-700">
+              Current Value: <span className="font-bold">{training?.currentValue || "—"}</span>
             </div>
           </Card>
           <Card title="My Performance" subtitle="Placeholder">
-            <StatCard label="APAT (Today)" value="—" />
+            <div className="grid grid-cols-2 gap-3">
+              <StatCard label="APAT Today" value={apatToday} tone={apatToday < 60 ? "warn" : "good"} />
+              <StatCard label="APAT Average" value={apatAverage} />
+            </div>
+            {apatToday < 60 ? (
+              <div className="mt-3 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                Low APAT warning (UI-only): catch up today.
+              </div>
+            ) : null}
           </Card>
           <Card title="My Certifications" subtitle="Placeholder">
             <StatCard label="Status" value="—" />
@@ -121,13 +143,37 @@ export default function MyOfficePage() {
 
         <div className="lg:col-span-4 space-y-4">
           <Card title="My Financials (summary)" subtitle="Placeholder">
-            <StatCard label="Wallet" value="—" />
+            <StatCard label="Wallet Balance" value={financials?.walletBalance ?? "—"} />
+            {walletLocked ? (
+              <div className="mt-3 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                Wallet Locked — Improve Learning Consistency
+              </div>
+            ) : null}
           </Card>
           <Card title="My Impact Growth" subtitle="Placeholder">
-            <StatCard label="ITS0 → ITS4" value="—" />
+            <div className="space-y-2 text-sm text-slate-700">
+              <div className="flex justify-between"><span>ITS0</span><span className="font-bold">{impact?.its0 ?? "—"}</span></div>
+              <div className="flex justify-between"><span>ITS1</span><span className="font-bold">{impact?.its1 ?? "—"}</span></div>
+              <div className="flex justify-between"><span>ITS2</span><span className="font-bold">{impact?.its2 ?? "—"}</span></div>
+              <div className="flex justify-between"><span>ITS3</span><span className="font-bold">{impact?.its3 ?? "—"}</span></div>
+              <div className="flex justify-between"><span>ITS4</span><span className="font-bold">{impact?.its4 ?? "—"}</span></div>
+              <div className="mt-2 flex justify-between"><span>Active Members</span><span className="font-bold">{impact?.activeMembers ?? "—"}</span></div>
+              <div className="flex justify-between"><span>Inactive Members</span><span className="font-bold">{impact?.inactiveMembers ?? "—"}</span></div>
+            </div>
           </Card>
           <Card title="My PAG" subtitle="Placeholder">
-            <StatCard label="PAG ID" value="—" />
+            {hasPag ? (
+              <div className="grid grid-cols-2 gap-3">
+                <StatCard label="PAG ID" value={pag.id} />
+                <StatCard label="Coach" value={pag.coach} />
+                <StatCard label="Members" value={pag.members} />
+                <StatCard label="Wallet" value={pag.wallet} />
+              </div>
+            ) : (
+              <div className="text-sm text-slate-600">
+                No PAG assigned yet (empty state placeholder).
+              </div>
+            )}
           </Card>
         </div>
 
@@ -146,9 +192,9 @@ export default function MyOfficePage() {
         <SectionHeader title="Parent Summary" subtitle="High-level stats (placeholders)." />
         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
           <StatCard label="Certification Status" value="—" />
-          <StatCard label="Current APAT Score" value="—" />
-          <StatCard label="Average APAT Score" value="—" />
-          <StatCard label="Current Value Training" value="—" />
+          <StatCard label="Current APAT Score" value={apatToday} tone={apatToday < 60 ? "warn" : "good"} />
+          <StatCard label="Average APAT Score" value={apatAverage} />
+          <StatCard label="Current Value Training" value={training?.currentValue || "—"} />
         </div>
       </div>
 
@@ -156,9 +202,35 @@ export default function MyOfficePage() {
       <div className="mt-8">
         <SectionHeader title="Children’s Corner" subtitle="Child cards (mock placeholders)." />
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {mockChildren.map((c) => (
-            <ChildCard key={c.id} child={c} />
-          ))}
+          {hasChildren ? (
+            children.map((c) => (
+              <ChildCard
+                key={c.id}
+                child={{
+                  name: c.name,
+                  predisposition: c.predisposition,
+                  valuesTrained: c.valuesTrained,
+                  currentValue: c.currentValue,
+                  progressPct: c.progress,
+                  averageScore: c.averageScore,
+                  commonCard: c.commonCard,
+                  areaStruggledIn: c.struggledArea,
+                  valuesNotCovered: c.valuesRemaining,
+                }}
+              />
+            ))
+          ) : (
+            <Card title="No children yet" subtitle="Add Child placeholder (UI-only)">
+              <div className="text-sm text-slate-700">
+                You haven’t added any children yet. Add child onboarding will be wired in Phase 3.
+              </div>
+              <div className="mt-4">
+                <button className="h-10 px-5 rounded-full bg-teal-900 text-white font-semibold hover:bg-teal-800">
+                  Add Child
+                </button>
+              </div>
+            </Card>
+          )}
         </div>
       </div>
 
@@ -168,23 +240,28 @@ export default function MyOfficePage() {
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
           <div className="lg:col-span-3 space-y-4">
             <Card title="PAG Details" subtitle="Placeholder">
-              <div className="space-y-2 text-sm text-slate-700">
-                <div className="flex justify-between"><span>PAG ID</span><span className="font-bold">—</span></div>
-                <div className="flex justify-between"><span>Coach Name</span><span className="font-bold">—</span></div>
-                <div className="flex justify-between"><span>Members</span><span className="font-bold">—</span></div>
-                <div className="flex justify-between"><span>Avg Score (Today/Week/Month)</span><span className="font-bold">—</span></div>
-                <div className="flex justify-between"><span>PAG Wallet</span><span className="font-bold">—</span></div>
-              </div>
+              {hasPag ? (
+                <div className="space-y-2 text-sm text-slate-700">
+                  <div className="flex justify-between"><span>PAG ID</span><span className="font-bold">{pag.id}</span></div>
+                  <div className="flex justify-between"><span>Coach Name</span><span className="font-bold">{pag.coach}</span></div>
+                  <div className="flex justify-between"><span>Members</span><span className="font-bold">{pag.members}</span></div>
+                  <div className="flex justify-between"><span>Avg Score (Today/Week/Month)</span><span className="font-bold">{pag.scoreToday}/{pag.scoreWeek}/{pag.scoreMonth}</span></div>
+                  <div className="flex justify-between"><span>PAG Wallet</span><span className="font-bold">{pag.wallet}</span></div>
+                </div>
+              ) : (
+                <div className="text-sm text-slate-600">
+                  No PAG assigned yet (empty state placeholder).
+                </div>
+              )}
             </Card>
           </div>
 
           <div className="lg:col-span-3 space-y-4">
             <Card title="Impact Growth" subtitle="Placeholder">
               <div className="space-y-2 text-sm text-slate-700">
-                <div className="flex justify-between"><span>Team summary</span><span className="font-bold">—</span></div>
-                <div className="flex justify-between"><span>ITS0 → ITS4</span><span className="font-bold">—</span></div>
-                <div className="flex justify-between"><span>Active Members</span><span className="font-bold">—</span></div>
-                <div className="flex justify-between"><span>Inactive Members</span><span className="font-bold">—</span></div>
+                <div className="flex justify-between"><span>ITS0 → ITS4</span><span className="font-bold">{impact?.its0 ?? "—"} / {impact?.its1 ?? "—"} / {impact?.its2 ?? "—"} / {impact?.its3 ?? "—"} / {impact?.its4 ?? "—"}</span></div>
+                <div className="flex justify-between"><span>Active Members</span><span className="font-bold">{impact?.activeMembers ?? "—"}</span></div>
+                <div className="flex justify-between"><span>Inactive Members</span><span className="font-bold">{impact?.inactiveMembers ?? "—"}</span></div>
               </div>
             </Card>
           </div>
@@ -192,11 +269,16 @@ export default function MyOfficePage() {
           <div className="lg:col-span-3 space-y-4">
             <Card title="Financials" subtitle="Placeholder">
               <div className="space-y-2 text-sm text-slate-700">
-                <div className="flex justify-between"><span>Wallet summary</span><span className="font-bold">—</span></div>
+                <div className="flex justify-between"><span>Wallet summary</span><span className="font-bold">{financials?.walletBalance ?? "—"}</span></div>
                 <div className="flex justify-between"><span>Sources</span><span className="font-bold">—</span></div>
                 <div className="flex justify-between"><span>History</span><span className="font-bold">—</span></div>
                 <div className="flex justify-between"><span>Bot Purchases</span><span className="font-bold">—</span></div>
               </div>
+              {walletLocked ? (
+                <div className="mt-3 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                  Wallet Locked — Improve Learning Consistency
+                </div>
+              ) : null}
             </Card>
           </div>
 
