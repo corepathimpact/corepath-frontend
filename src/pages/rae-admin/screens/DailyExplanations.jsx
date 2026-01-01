@@ -52,7 +52,11 @@ export default function DailyExplanations() {
         setRows(res.data.data.rows || []);
       } catch (e) {
         if (!mounted) return;
-        setError(e?.response?.data?.message || e.message || "Failed to load explanations.");
+        setError(
+          e?.response?.data?.message ||
+            e.message ||
+            "Failed to load explanations."
+        );
       } finally {
         if (mounted) setLoading(false);
       }
@@ -90,15 +94,20 @@ export default function DailyExplanations() {
       const res = await raeAdminApi.listResources(params);
       setRows(res.data.data.rows || []);
     } catch (e) {
-      setError(e?.response?.data?.message || e.message || "Failed to save draft.");
+      setError(
+        e?.response?.data?.message || e.message || "Failed to save draft."
+      );
     }
   };
 
   return (
     <div>
-      <h2 className="text-xl font-extrabold text-slate-900">Daily Value Explanations (AREA_03)</h2>
+      <h2 className="text-xl font-extrabold text-slate-900">
+        Daily Value Explanations (AREA_03)
+      </h2>
       <p className="mt-1 text-sm text-slate-600">
-        A value is incomplete until all 21 days exist and are approved. Day index is locked (1–21).
+        A value is incomplete until all 21 days exist and are approved. Day
+        index is locked (1–21).
       </p>
 
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -131,9 +140,9 @@ export default function DailyExplanations() {
             <button
               key={d}
               onClick={() => setDayIndex(d)}
-              className={`px-3 py-1 rounded-full text-xs font-bold ${dayPillClass(status)} ${
-                d === dayIndex ? "ring-2 ring-teal-800" : ""
-              }`}
+              className={`px-3 py-1 rounded-full text-xs font-bold ${dayPillClass(
+                status
+              )} ${d === dayIndex ? "ring-2 ring-teal-800" : ""}`}
               title={status}
             >
               Day {d}
@@ -142,14 +151,22 @@ export default function DailyExplanations() {
         })}
       </div>
 
-      {loading ? <div className="mt-6 text-sm text-slate-600">Loading…</div> : null}
-      {error ? <div className="mt-6 rounded-xl border border-red-200 bg-red-50 text-red-800 p-4 text-sm">{error}</div> : null}
+      {loading ? (
+        <div className="mt-6 text-sm text-slate-600">Loading…</div>
+      ) : null}
+      {error ? (
+        <div className="mt-6 rounded-xl border border-red-200 bg-red-50 text-red-800 p-4 text-sm">
+          {error}
+        </div>
+      ) : null}
 
       <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <input
             value={form.angleTag}
-            onChange={(e) => setForm((f) => ({ ...f, angleTag: e.target.value }))}
+            onChange={(e) =>
+              setForm((f) => ({ ...f, angleTag: e.target.value }))
+            }
             className="rounded-xl border border-slate-200 px-3 py-2 text-sm md:col-span-3"
             placeholder="Angle / Perspective (required)"
           />
@@ -195,7 +212,9 @@ export default function DailyExplanations() {
             onClick={onSaveDraft}
             disabled={!canDraft(role)}
             className={`px-5 py-2 rounded-full text-sm font-semibold ${
-              canDraft(role) ? "bg-teal-800 text-white hover:bg-teal-700" : "bg-slate-200 text-slate-500"
+              canDraft(role)
+                ? "bg-teal-800 text-white hover:bg-teal-700"
+                : "bg-slate-200 text-slate-500"
             }`}
           >
             Save Draft
@@ -204,7 +223,9 @@ export default function DailyExplanations() {
             onClick={onSaveDraft}
             disabled={!canDraft(role)}
             className={`px-5 py-2 rounded-full text-sm font-semibold ${
-              canDraft(role) ? "border border-teal-800 text-teal-900 hover:bg-teal-50" : "border border-slate-200 text-slate-400"
+              canDraft(role)
+                ? "border border-teal-800 text-teal-900 hover:bg-teal-50"
+                : "border border-slate-200 text-slate-400"
             }`}
             title="Submit for review (draft remains pending until approved)"
           >
@@ -220,5 +241,3 @@ export default function DailyExplanations() {
     </div>
   );
 }
-
-
