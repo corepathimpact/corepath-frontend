@@ -99,44 +99,44 @@ function HeroCarousel() {
           </div>
 
           <div className="lg:col-span-5 bg-slate-200 relative overflow-hidden min-h-[220px]">
-            {/* Current image */}
-            {slide.imageSrc ? (
-              <img
-                src={slide.imageSrc}
-                alt={slide.imageAlt || slide.title || "Slide image"}
-                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-in-out ${
-                  isAnimating ? "-translate-x-full" : "translate-x-0"
-                }`}
-                loading="lazy"
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-sm text-slate-600">
-                Image placeholder
+            {/* Image track: current slides out LEFT, next slides IN from RIGHT */}
+            <div
+              className={`absolute inset-0 flex w-[200%] transition-transform duration-500 ease-in-out ${
+                isAnimating ? "-translate-x-1/2" : "translate-x-0"
+              }`}
+            >
+              {/* Frame 1: current */}
+              <div className="w-1/2 h-full">
+                {slide.imageSrc ? (
+                  <img
+                    src={slide.imageSrc}
+                    alt={slide.imageAlt || slide.title || "Slide image"}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="h-full w-full flex items-center justify-center text-sm text-slate-600">
+                    Image placeholder
+                  </div>
+                )}
               </div>
-            )}
 
-            {/* Next image (slides in from right, ending at 0) */}
-            {nextIdx !== null && nextSlide && nextSlide.imageSrc ? (
-              <img
-                src={nextSlide.imageSrc}
-                alt={nextSlide.imageAlt || nextSlide.title || "Next slide image"}
-                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-in-out ${
-                  isAnimating ? "translate-x-0" : "translate-x-full"
-                }`}
-                loading="lazy"
-              />
-            ) : null}
-
-            {/* If animating but next image is missing */}
-            {nextIdx !== null && nextSlide && !nextSlide.imageSrc ? (
-              <div
-                className={`absolute inset-0 flex items-center justify-center text-sm text-slate-600 transition-transform duration-500 ease-in-out ${
-                  isAnimating ? "translate-x-0" : "translate-x-full"
-                }`}
-              >
-                Image placeholder
+              {/* Frame 2: next */}
+              <div className="w-1/2 h-full">
+                {nextSlide && nextSlide.imageSrc ? (
+                  <img
+                    src={nextSlide.imageSrc}
+                    alt={nextSlide.imageAlt || nextSlide.title || "Next slide image"}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="h-full w-full flex items-center justify-center text-sm text-slate-600">
+                    Image placeholder
+                  </div>
+                )}
               </div>
-            ) : null}
+            </div>
           </div>
         </div>
       </div>
