@@ -10,6 +10,7 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { isAuthenticated } from "../services/authStorage";
 
 export default function Header() {
   // State to control mobile menu open/close
@@ -38,10 +39,12 @@ export default function Header() {
     { name: "Resources", link: "/resources" },
   ];
 
-  const authItems = [
-    { name: "Login", link: "/login" },
-    { name: "Get Started", link: "/get-started" },
-  ];
+  const authItems = isAuthenticated()
+    ? [{ name: "My Office", link: "/home" }]
+    : [
+        { name: "Login", link: "/login" },
+        { name: "Get Started", link: "/get-started" },
+      ];
 
   return (
     <header className="bg-turquoise text-white fixed w-full top-0 left-0 z-50 shadow-md">
@@ -102,7 +105,7 @@ export default function Header() {
                 <Link
                   to={item.link}
                   className={
-                    item.name === "Get Started"
+                    item.name === "Get Started" || item.name === "My Office"
                       ? "px-3 py-1 rounded-full bg-white text-turquoise hover:opacity-90 transition"
                       : "hover:text-gold transition"
                   }

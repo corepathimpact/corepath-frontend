@@ -159,6 +159,7 @@ function App() {
         <Route path="/promotions" element={<BackofficeRoute><PromotionsPage /></BackofficeRoute>} />
 
         {/* ✅ Post-login: Back Office (portal landing) */}
+        <Route path="/backoffice/home" element={<Navigate to="/home" replace />} />
         <Route
           path="/backoffice"
           element={
