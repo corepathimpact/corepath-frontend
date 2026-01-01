@@ -8,42 +8,23 @@ import { useBackoffice } from "../../context/BackofficeContext";
 
 function HeroCarousel() {
   const [idx, setIdx] = useState(0);
-  const [nextIdx, setNextIdx] = useState(null);
-  const [isAnimating, setIsAnimating] = useState(false);
   const slides = mockCarouselSlides;
 
   const slide = slides[idx] || slides[0];
-  const nextSlide =
-    nextIdx !== null && nextIdx !== undefined ? slides[nextIdx] || slides[0] : null;
-
-  const advanceTo = (targetIdx) => {
-    if (!Array.isArray(slides) || slides.length === 0) return;
-    if (isAnimating) return;
-    const safeTarget = ((targetIdx % slides.length) + slides.length) % slides.length;
-    if (safeTarget === idx) return;
-
-    setNextIdx(safeTarget);
-    // Render the next image off-screen first, then trigger the transition.
-    setTimeout(() => setIsAnimating(true), 20);
-
-    // Match Tailwind transition duration below (500ms)
-    setTimeout(() => {
-      setIdx(safeTarget);
-      setNextIdx(null);
-      setIsAnimating(false);
-    }, 520);
-  };
+  const slidesWithImages = Array.isArray(slides)
+    ? slides.filter((s) => Boolean(s && s.imageSrc))
+    : [];
+  const rollingImages = [...slidesWithImages, ...slidesWithImages];
 
   useEffect(() => {
     if (!Array.isArray(slides) || slides.length <= 1) return undefined;
 
     const id = setInterval(() => {
-      if (isAnimating) return;
-      advanceTo((idx + 1) % slides.length);
+      setIdx((v) => (v + 1) % slides.length);
     }, 6000);
 
     return () => clearInterval(id);
-  }, [slides.length, idx, isAnimating]);
+  }, [slides.length]);
 
   return (
     <Card
@@ -53,13 +34,13 @@ function HeroCarousel() {
       actions={
         <div className="flex items-center gap-2">
           <button
-            onClick={() => advanceTo((idx - 1 + slides.length) % slides.length)}
+            onClick={() => setIdx((v) => (v - 1 + slides.length) % slides.length)}
             className="h-9 px-3 rounded-xl border border-slate-200 text-sm font-bold hover:bg-slate-50"
           >
             Prev
           </button>
           <button
-            onClick={() => advanceTo((idx + 1) % slides.length)}
+            onClick={() => setIdx((v) => (v + 1) % slides.length)}
             className="h-9 px-3 rounded-xl border border-slate-200 text-sm font-bold hover:bg-slate-50"
           >
             Next
@@ -99,44 +80,30 @@ function HeroCarousel() {
           </div>
 
           <div className="lg:col-span-5 bg-slate-200 relative overflow-hidden min-h-[220px]">
-            {/* Image track: current slides out LEFT, next slides IN from RIGHT */}
-            <div
-              className={`absolute inset-0 flex w-[200%] transition-transform duration-500 ease-in-out ${
-                isAnimating ? "-translate-x-1/2" : "translate-x-0"
-              }`}
-            >
-              {/* Frame 1: current */}
-              <div className="w-1/2 h-full">
-                {slide.imageSrc ? (
-                  <img
-                    src={slide.imageSrc}
-                    alt={slide.imageAlt || slide.title || "Slide image"}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="h-full w-full flex items-center justify-center text-sm text-slate-600">
-                    Image placeholder
-                  </div>
-                )}
+            {rollingImages.length > 0 ? (
+              <div className="absolute inset-0">
+                {/* Continuous right->left rolling image strip */}
+                <div className="animate-scroll-slow h-full items-stretch gap-3 px-3">
+                  {rollingImages.map((s, i) => (
+                    <div
+                      key={`${i}-${s.imageSrc}`}
+                      className="h-full w-[280px] shrink-0 rounded-2xl overflow-hidden border border-white/30"
+                    >
+                      <img
+                        src={s.imageSrc}
+                        alt={s.imageAlt || s.title || "Carousel image"}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
-
-              {/* Frame 2: next */}
-              <div className="w-1/2 h-full">
-                {nextSlide && nextSlide.imageSrc ? (
-                  <img
-                    src={nextSlide.imageSrc}
-                    alt={nextSlide.imageAlt || nextSlide.title || "Next slide image"}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="h-full w-full flex items-center justify-center text-sm text-slate-600">
-                    Image placeholder
-                  </div>
-                )}
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-sm text-slate-600">
+                Image placeholder
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
