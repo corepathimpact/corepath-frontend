@@ -15,26 +15,38 @@ export const mockCarouselSlides = [
   {
     title: "Today’s Value Focus",
     subtitle: "Placeholder slide — API-backed later.",
+    imageSrc: "/images/hero-bg-1.jpg",
+    imageAlt: "Family learning moment",
   },
   {
     title: "Your Weekly Momentum",
     subtitle: "Placeholder slide — APAT-aware later.",
+    imageSrc: "/images/hero-bg-2.jpg",
+    imageAlt: "Weekly momentum background",
   },
   {
     title: "Next Training Recommended",
     subtitle: "Placeholder slide — orchestration later.",
+    imageSrc: "/images/hero-bg-3.jpg",
+    imageAlt: "Training recommendation background",
   },
   {
     title: "My Office Snapshot",
     subtitle: "Placeholder slide — personalized summaries later.",
+    imageSrc: "/images/hero-bg-4.jpg",
+    imageAlt: "Backoffice snapshot background",
   },
   {
     title: "PAG & Community",
     subtitle: "Placeholder slide — PAG insights later.",
+    imageSrc: "/images/group-african-kids-paying-attention-class.jpg",
+    imageAlt: "Community learning group",
   },
   {
     title: "Impact Transfer",
     subtitle: "Placeholder slide — impact + rewards views later.",
+    imageSrc: "/images/family-values-practice.jpg",
+    imageAlt: "Family values practice",
   },
 ];
 

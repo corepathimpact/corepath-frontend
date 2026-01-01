@@ -44,21 +44,51 @@ function HeroCarousel() {
         </div>
       }
     >
-      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 min-h-[280px] flex flex-col justify-between">
-        <div>
-          <div className="text-xs uppercase tracking-widest font-bold text-slate-500">
-            Slide {idx + 1} / {slides.length}
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden min-h-[320px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12">
+          <div className="lg:col-span-7 p-6 flex flex-col justify-between min-h-[320px]">
+            <div>
+              <div className="text-xs uppercase tracking-widest font-bold text-slate-500">
+                Slide {idx + 1} / {slides.length}
+              </div>
+              <div className="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">
+                {slide.title}
+              </div>
+              <div className="mt-2 text-sm text-slate-600 max-w-2xl">
+                {slide.subtitle}
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                to="/my-office"
+                className="px-5 py-2 rounded-full bg-teal-900 text-white font-semibold hover:bg-teal-800 text-sm"
+              >
+                Go to My Office
+              </Link>
+              <Link
+                to="/welcome"
+                className="px-5 py-2 rounded-full border border-slate-300 text-slate-800 font-semibold hover:bg-slate-50 text-sm"
+              >
+                Learn more
+              </Link>
+            </div>
           </div>
-          <div className="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">{slide.title}</div>
-          <div className="mt-2 text-sm text-slate-600 max-w-2xl">{slide.subtitle}</div>
-        </div>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link to="/my-office" className="px-5 py-2 rounded-full bg-teal-900 text-white font-semibold hover:bg-teal-800 text-sm">
-            Go to My Office
-          </Link>
-          <Link to="/welcome" className="px-5 py-2 rounded-full border border-slate-300 text-slate-800 font-semibold hover:bg-slate-50 text-sm">
-            Learn more
-          </Link>
+
+          <div className="lg:col-span-5 bg-slate-200">
+            {slide.imageSrc ? (
+              <img
+                src={slide.imageSrc}
+                alt={slide.imageAlt || slide.title || "Slide image"}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="h-full min-h-[220px] flex items-center justify-center text-sm text-slate-600">
+                Image placeholder
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Card>
