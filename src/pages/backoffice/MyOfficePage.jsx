@@ -107,10 +107,12 @@ export default function MyOfficePage() {
   const { training, performance, financials, impact, pag, children, derived } =
     useBackoffice() || {};
   const eligibility = useEligibility();
+  const eligibilityMissing = eligibility === null;
 
   const apatToday = performance?.apatToday ?? 0;
   const apatAverage = performance?.apatAverage ?? 0;
-  const walletLocked = eligibility ? eligibility.canWithdraw === false : Boolean(financials?.locked);
+  // Phase 6 safety rule: if eligibility is missing, lock everything (UI-only).
+  const walletLocked = eligibilityMissing ? true : eligibility.canWithdraw === false;
   const hasPag = Boolean(pag && pag.id);
   const hasChildren = Array.isArray(children) && children.length > 0;
   const trainingCompletionPct = derived?.trainingCompletionPct ?? 0;
@@ -193,9 +195,9 @@ export default function MyOfficePage() {
                 Withdraw
               </button>
               <button
-                disabled={eligibility ? eligibility.canPurchaseBot === false : false}
+                disabled={eligibilityMissing ? true : eligibility.canPurchaseBot === false}
                 className={`h-10 px-5 rounded-full text-sm font-semibold ${
-                  eligibility && eligibility.canPurchaseBot === false
+                  eligibilityMissing || (eligibility && eligibility.canPurchaseBot === false)
                     ? "bg-slate-200 text-slate-500 cursor-not-allowed"
                     : "border border-slate-300 text-slate-800 hover:bg-slate-50"
                 }`}
@@ -203,6 +205,15 @@ export default function MyOfficePage() {
                 Purchase Bot
               </button>
             </div>
+
+            {eligibilityMissing ? (
+              <div className="mt-3 text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                <div className="font-extrabold">🔒 Privileges locked</div>
+                <div className="mt-1">
+                  Eligibility data is unavailable. Withdrawals and bot purchases are locked until eligibility is loaded.
+                </div>
+              </div>
+            ) : null}
 
             {walletLocked ? (
               <div className="mt-3 text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">

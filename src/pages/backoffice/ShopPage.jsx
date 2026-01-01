@@ -93,7 +93,10 @@ export default function ShopPage() {
               </div>
             )
           ) : (
-            <div className="text-sm text-slate-600">Loading eligibility…</div>
+            <div className="text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+              <div className="font-extrabold">🔒 Privileges locked</div>
+              <div className="mt-1">Eligibility data is unavailable. Bot purchases are locked until eligibility is loaded.</div>
+            </div>
           )}
         </Card>
       </div>

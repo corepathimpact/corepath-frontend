@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { clearAuth, getAuth } from "../services/authStorage";
 import { useBackoffice } from "../context/BackofficeContext";
+import FullPageLoader from "../components/system/FullPageLoader";
+import ErrorState from "../components/system/ErrorState";
 
 const NAV_TABS = [
   { label: "HOME", to: "/home" },
@@ -17,7 +19,7 @@ const NAV_TABS = [
 export default function BackofficeLayout({ children }) {
   const navigate = useNavigate();
   const auth = getAuth();
-  const { user: boUser } = useBackoffice() || {};
+  const { user: boUser, loading, error } = useBackoffice() || {};
 
   const displayUser = useMemo(() => {
     const email = auth?.user?.email || "user@corepathimpact.com";
@@ -40,6 +42,14 @@ export default function BackofficeLayout({ children }) {
     clearAuth();
     navigate("/login", { replace: true });
   };
+
+  if (loading) {
+    return <FullPageLoader message="Loading your dashboard..." />;
+  }
+
+  if (error) {
+    return <ErrorState message={error} />;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">

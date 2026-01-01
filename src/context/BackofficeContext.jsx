@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { fetchBackofficeData } from "../services/backofficeApi.mock";
+import { fetchBackofficeData } from "../services/backofficeApi";
 import {
   adaptUser,
   adaptTraining,
@@ -21,20 +21,43 @@ export function BackofficeProvider({ children }) {
   const [pag, setPag] = useState(null);
   const [childList, setChildren] = useState([]);
   const [rawEligibility, setRawEligibility] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Keep Jest/test environment stable (no real network calls).
+    if (process.env.NODE_ENV === "test") {
+      setLoading(false);
+      return;
+    }
+
     let mounted = true;
-    fetchBackofficeData().then((api) => {
-      if (!mounted) return;
-      setUser(adaptUser(api.user));
-      setTraining(adaptTraining(api.training));
-      setPerformance(adaptPerformance(api.performance));
-      setFinancials(adaptFinancials(api.financials));
-      setImpact(adaptImpact(api.impact));
-      setPag(adaptPag(api.pag));
-      setRawEligibility(api.eligibility || null);
-      setChildren((api.children || []).map(adaptChild).filter(Boolean));
-    });
+    setLoading(true);
+    setError(null);
+
+    fetchBackofficeData()
+      .then((api) => {
+        if (!mounted) return;
+        setUser(adaptUser(api.user));
+        setTraining(adaptTraining(api.training));
+        setPerformance(adaptPerformance(api.performance));
+        setFinancials(adaptFinancials(api.financials));
+        setImpact(adaptImpact(api.impact));
+        setPag(adaptPag(api.pag));
+        setRawEligibility(api.eligibility || null);
+        setChildren((api.children || []).map(adaptChild).filter(Boolean));
+      })
+      .catch((err) => {
+        // UI-level handling only; no business logic.
+        // eslint-disable-next-line no-console
+        console.error(err);
+        if (!mounted) return;
+        setError("Failed to load dashboard data");
+      })
+      .finally(() => {
+        if (!mounted) return;
+        setLoading(false);
+      });
     return () => {
       mounted = false;
     };
@@ -68,6 +91,8 @@ export function BackofficeProvider({ children }) {
         children: childList,
         rawEligibility,
         derived,
+        loading,
+        error,
       }}
     >
       {children}
