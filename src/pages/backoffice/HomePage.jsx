@@ -15,16 +15,17 @@ function HeroCarousel() {
     ? slides.filter((s) => Boolean(s && s.imageSrc))
     : [];
   const rollingImages = [...slidesWithImages, ...slidesWithImages];
+  const slidesLen = Array.isArray(slides) ? slides.length : 0;
 
   useEffect(() => {
-    if (!Array.isArray(slides) || slides.length <= 1) return undefined;
+    if (slidesLen <= 1) return undefined;
 
     const id = setInterval(() => {
-      setIdx((v) => (v + 1) % slides.length);
+      setIdx((v) => (v + 1) % slidesLen);
     }, 6000);
 
     return () => clearInterval(id);
-  }, [slides.length]);
+  }, [slidesLen]);
 
   return (
     <Card

@@ -39,9 +39,9 @@ export default function AccountOverviewPage() {
               <DetailRow label="Enrollment Date" value={u.enrollmentDate} />
               <DetailRow label="Phone Number" value={u.phoneNumber} />
               <DetailRow label="Location" value={u.location} />
-              <DetailRow label="Sponsor" value={u.sponsor} />
+              <DetailRow label="Impact Enabler" value={u.sponsor} />
               <DetailRow label="PAG Coach" value={u.pagCoach} />
-              <DetailRow label="Referral Link" value={u.referralLink} />
+              <DetailRow label="Impact Transfer Link" value={u.referralLink} />
               <DetailRow label="Email" value={u.email} />
             </div>
           </Card>
