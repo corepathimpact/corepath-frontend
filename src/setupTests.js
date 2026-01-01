@@ -3,6 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
+import "./tests/setupTests";
 
 // JSDOM doesn't implement IntersectionObserver.
 // Framer Motion (and other libs) may rely on it for in-view animations.

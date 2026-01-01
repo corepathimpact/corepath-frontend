@@ -25,12 +25,6 @@ export function BackofficeProvider({ children }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Keep Jest/test environment stable (no real network calls).
-    if (process.env.NODE_ENV === "test") {
-      setLoading(false);
-      return;
-    }
-
     let mounted = true;
     setLoading(true);
     setError(null);

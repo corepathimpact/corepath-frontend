@@ -1,0 +1,9 @@
+export default {
+  testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.js"],
+  moduleNameMapper: {
+    "\\.(css|scss|sass)$": "identity-obj-proxy",
+  },
+};
+
+
