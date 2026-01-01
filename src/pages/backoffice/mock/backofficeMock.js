@@ -15,6 +15,9 @@ export const mockCarouselSlides = [
   { title: "Today’s Value Focus", subtitle: "Placeholder slide — API-backed later." },
   { title: "Your Weekly Momentum", subtitle: "Placeholder slide — APAT-aware later." },
   { title: "Next Training Recommended", subtitle: "Placeholder slide — orchestration later." },
+  { title: "My Office Snapshot", subtitle: "Placeholder slide — personalized summaries later." },
+  { title: "PAG & Community", subtitle: "Placeholder slide — PAG insights later." },
+  { title: "Impact Transfer", subtitle: "Placeholder slide — impact + rewards views later." },
 ];
 
 export const mockQuickTiles = [
